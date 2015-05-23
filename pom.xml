@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 	<description>University project, which generates a labyrinth in the given size.</description>
 
-	<name>labgen</name>
+	<name>Labyrinth Generator</name>
 	<url>https://github.com/annamaria-szentpeteri/LabyrinthGenerator</url>
 
 	<licenses>
@@ -32,7 +32,7 @@
 
 	<scm>
 		<url>https://github.com/annamaria-szentpeteri/LabyrinthGenerator</url>
-		<connection>https://github.com/annamaria-szentpeteri/LabyrinthGenerator.git</connection>
+		<connection>scm:git:https://github.com/annamaria-szentpeteri/LabyrinthGenerator.git</connection>
 	</scm>
 
 	<properties>
@@ -40,19 +40,70 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<id>enforce-java-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>3.0.0</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>1.8</version>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>
+										AppTest
+									</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
 	<reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.15</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>checkstyle</report>
-						</reports>
-					</reportSet>
-				</reportSets>
+				<configuration>
+					<configLocation>${basedir}/Config/checkstyle.xml</configLocation>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

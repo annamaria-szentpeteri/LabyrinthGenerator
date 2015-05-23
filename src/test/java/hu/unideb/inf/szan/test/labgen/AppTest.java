@@ -1,4 +1,4 @@
-package hu.unideb.inf.szan.labgen;
+package hu.unideb.inf.szan.test.labgen;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

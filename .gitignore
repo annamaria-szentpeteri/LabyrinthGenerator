@@ -1,11 +1,13 @@
-/target/.
-
 #################
 ## Eclipse
 #################
 
-*.pydevproject
+target/
 .project
+.classpath
+.settings/
+
+*.pydevproject
 .metadata
 bin/
 tmp/
@@ -14,8 +16,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.classpath
-.settings/
 .loadpath
 
 # External tool builders

@@ -1,4 +1,4 @@
-package hu.unideb.inf.szan.labgen;
+package hu.unideb.inf.szan.main.labgen;
 
 /**
  * Hello world!
