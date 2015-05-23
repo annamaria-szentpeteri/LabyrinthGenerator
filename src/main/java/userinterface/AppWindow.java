@@ -31,6 +31,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JSeparator;
 import javax.swing.JEditorPane;
 import javax.swing.border.MatteBorder;
+import java.awt.Canvas;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AppWindow {
 
@@ -85,11 +93,19 @@ public class AppWindow {
 		frmMain.getContentPane().add(btnLoad);
 		
 		JButton btnExit = new JButton("Kilépés");
+		btnExit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+		});
+
+		btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnExit.setBounds(30, 253, 101, 23);
 		frmMain.getContentPane().add(btnExit);
 		
 		JPanel pLabyrinth = new JPanel();
-		pLabyrinth.setBounds(174, 11, 351, 300);
+		pLabyrinth.setBounds(174, 11, 350, 300);
 		frmMain.getContentPane().add(pLabyrinth);
 		pLabyrinth.setLayout(null);
 
@@ -107,6 +123,18 @@ public class AppWindow {
 		 * megkapja, hogy melyik mezőről (sor, oszlop koordináta) kéri le a 4 
 		 * fal információt (top, left, bottom, right) és ezt adja vissza.
 		 * (0 - van fal, 1 - nincs fal) 
+		 * 
+		 * ALTERNATÍVA
+		 * 
+		 * Canvas használata
+		 * Canvas-ból származtatsz egy saját osztályt
+		 * ( meg UI kódban átírod h azt példányosítsa )
+		 * a paint metódust override-olod
+		 * az kap argumentumnak egy Graphics példányt
+		 * azzal lehet rajzolni, vagy kasztolhatod Graphics2D-re
+		 * 
+		 * Ekkor a jelenleg elképzelt adatszerkezeten kényelmesen
+		 * végig tudnék menni.
 		 * */
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new MatteBorder(2, 2, 0, 0, (Color) new Color(0, 0, 0)));
@@ -143,6 +171,10 @@ public class AppWindow {
 		panel_6.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
 		panel_6.setBounds(20, 10, 10, 10);
 		pLabyrinth.add(panel_6);
+		
+		Canvas canvas = new Canvas();
+		canvas.setBounds(68, 64, 100, 100);
+		pLabyrinth.add(canvas);
 		/*
 		 * #MINTA-END#
 		 * */		
@@ -158,8 +190,10 @@ public class AppWindow {
 		JLabel lblWidth = new JLabel("Szélesség:");
 		
 		JSpinner spHeight = new JSpinner();
+		spHeight.setModel(new SpinnerNumberModel(1, 1, 150, 1));
 		
 		JSpinner spWidth = new JSpinner();
+		spWidth.setModel(new SpinnerNumberModel(1, 1, 125, 1));
 		
 		GroupLayout gl_pSettings = new GroupLayout(pSettings);
 		gl_pSettings.setHorizontalGroup(
