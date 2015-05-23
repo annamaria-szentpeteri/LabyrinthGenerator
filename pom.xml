@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>hu.unideb.inf.szan</groupId>
+  <artifactId>labgen</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <description>University project, which generates a labyrinth in the given size.</description>
+  
+  <name>labgen</name>
+  <url>https://github.com/annamaria-szentpeteri/LabyrinthGenerator</url>
+  
+  <licenses>
+  	<license>
+  		<name>GNU General Public License Version 3</name>
+  		<url>http://www.gnu.org/copyleft/gpl.html</url>
+  	</license>
+  </licenses>
+  
+  <developers>
+  	<developer>
+  		<name>Szentpéteri Annamária</name>
+  		<email>szaea1994@gmail.com</email>
+  		<roles>
+  			<role>developer</role>
+  			<role>tester</role>
+  			<role>designer</role>
+  		</roles>
+  	</developer>
+  </developers>
+  
+  <scm>
+  	<url>https://github.com/annamaria-szentpeteri/LabyrinthGenerator</url>
+  	<connection>https://github.com/annamaria-szentpeteri/LabyrinthGenerator.git</connection>
+  </scm>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
