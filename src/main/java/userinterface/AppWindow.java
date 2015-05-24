@@ -3,12 +3,16 @@ package userinterface;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.Color;
+
 import javax.swing.JTextField;
+
 import java.awt.SystemColor;
 import java.awt.TextField;
 import java.awt.ComponentOrientation;
 import java.awt.Component;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.JTextPane;
@@ -17,10 +21,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
+
 import javax.swing.BoxLayout;
+
 import java.awt.GridLayout;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -31,11 +39,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JSeparator;
 import javax.swing.JEditorPane;
 import javax.swing.border.MatteBorder;
+
 import java.awt.Canvas;
+
 import javax.swing.SpinnerNumberModel;
 import javax.swing.AbstractAction;
+
 import java.awt.event.ActionEvent;
+
 import javax.swing.Action;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -44,6 +57,23 @@ public class AppWindow {
 
 	private JFrame frmMain;
 
+	/**
+	 * Launch the application.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AppWindow window = new AppWindow();
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	
 	public void setVisible(boolean visibility){
 		frmMain.setVisible(visibility);

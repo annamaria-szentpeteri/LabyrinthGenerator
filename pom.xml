@@ -75,12 +75,12 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
-						<phase>package</phase>
+						<phase>install</phase>
 						<configuration>
 							<archive>
 								<manifest>
 									<mainClass>
-										main.Main
+										userinterface.AppWindow
 									</mainClass>
 								</manifest>
 							</archive>
