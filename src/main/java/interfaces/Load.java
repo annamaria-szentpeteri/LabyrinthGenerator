@@ -1,7 +1,7 @@
 /**
  * 
  */
-package implementation;
+package interfaces;
 
 /**
  * @author Mari

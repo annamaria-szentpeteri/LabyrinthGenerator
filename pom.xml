@@ -80,7 +80,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										AppTest
+										main.Main
 									</mainClass>
 								</manifest>
 							</archive>

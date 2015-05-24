@@ -44,22 +44,11 @@ public class AppWindow {
 
 	private JFrame frmMain;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AppWindow window = new AppWindow();
-					window.frmMain.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	
+	public void setVisible(boolean visibility){
+		frmMain.setVisible(visibility);
 	}
-
+	
 	/**
 	 * Create the application.
 	 */
@@ -81,15 +70,49 @@ public class AppWindow {
 		frmMain.getContentPane().setLayout(null);
 		
 		JButton btnGenerate = new JButton("Generálás");
+		btnGenerate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				/* TODO */
+				/* Hívja meg a labirintus generálást:
+				 *   - generáljon labirintust
+				 *   - töltse fel a pLabyrinth-t a generált labirintus alapján
+				 *   - tárolja le valahogy a labirintust
+				 *     (na de hogy? Üzleti logika váljon el minél jobban ugyebár!)
+				 *   Kirakni az egészet egy külön mainbe?? JÓ ÖTLET! */
+				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
+				 * meghívódik ez a függvény! */
+			}
+		});
 		btnGenerate.setBounds(30, 117, 101, 23);
 		frmMain.getContentPane().add(btnGenerate);
 		
 		JButton btnSave = new JButton("Mentés");
+		btnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				/* TODO */
+				/* Hívja meg a labirintus mentést:
+				 * */
+				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
+				 * meghívódik ez a függvény! */
+			}
+		});
 		btnSave.setBounds(30, 165, 101, 23);
 		frmMain.getContentPane().add(btnSave);
 		
 		JButton btnLoad = new JButton("Betöltés");
 		btnLoad.setBounds(30, 199, 101, 23);
+		btnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				/* TODO */
+				/* Hívja meg a labirintus betöltést:
+				 * */
+				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
+				 * meghívódik ez a függvény! */
+			}
+		});
 		frmMain.getContentPane().add(btnLoad);
 		
 		JButton btnExit = new JButton("Kilépés");
@@ -99,7 +122,6 @@ public class AppWindow {
 				System.exit(0);
 			}
 		});
-
 		btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnExit.setBounds(30, 253, 101, 23);
 		frmMain.getContentPane().add(btnExit);
@@ -109,6 +131,7 @@ public class AppWindow {
 		frmMain.getContentPane().add(pLabyrinth);
 		pLabyrinth.setLayout(null);
 
+		
 		/*
 		 * #MINTA-START#
 		 * Ezt dinamikusan kell majd generálni a visszaadott labirintus alapján.
@@ -177,6 +200,8 @@ public class AppWindow {
 		pLabyrinth.add(canvas);
 		/*
 		 * #MINTA-END#
+		 * 
+		 * 
 		 * */		
 	
 		JPanel pSettings = new JPanel();
