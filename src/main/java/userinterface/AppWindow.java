@@ -30,7 +30,7 @@ public class AppWindow {
 	/**
 	 * Launch the application.
 	 * 
-	 * @param args
+	 * @param args sdfsd
 	 */
 	public static void main(String[] args) {		
 		EventQueue.invokeLater(new Runnable() {
@@ -47,7 +47,7 @@ public class AppWindow {
 	
 	
 	/**
-	 * @param visibility
+	 * @param visibility sdf
 	 */
 	public void setVisible(boolean visibility){
 		frmMain.setVisible(visibility);
