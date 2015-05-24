@@ -1,61 +1,31 @@
 package userinterface;
 
+import implementation.Labyrinth;
+
 import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Component;
+import java.awt.Canvas;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
-
-import java.awt.Color;
-
-import javax.swing.JTextField;
-
-import java.awt.SystemColor;
-import java.awt.TextField;
-import java.awt.ComponentOrientation;
-import java.awt.Component;
-
-import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
-import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.BoxLayout;
-
-import java.awt.GridLayout;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.Box;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JSeparator;
-import javax.swing.JEditorPane;
 import javax.swing.border.MatteBorder;
-
-import java.awt.Canvas;
-
 import javax.swing.SpinnerNumberModel;
-import javax.swing.AbstractAction;
-
-import java.awt.event.ActionEvent;
-
-import javax.swing.Action;
-
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class AppWindow {
 
 	private JFrame frmMain;
+	private Labyrinth labyrinth;
 
 	/**
 	 * Launch the application.
@@ -75,6 +45,10 @@ public class AppWindow {
 		});
 	}
 	
+	
+	/**
+	 * @param visibility
+	 */
 	public void setVisible(boolean visibility){
 		frmMain.setVisible(visibility);
 	}
@@ -99,6 +73,22 @@ public class AppWindow {
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMain.getContentPane().setLayout(null);
 		
+		JPanel pSettings = new JPanel();
+		pSettings.setBorder(new EmptyBorder(0, 0, 0, 0));
+		pSettings.setBackground(SystemColor.scrollbar);
+		pSettings.setBounds(10, 22, 148, 75);
+		frmMain.getContentPane().add(pSettings);
+		
+		JLabel lblHeight = new JLabel("Magasság:");
+		
+		JLabel lblWidth = new JLabel("Szélesség:");
+		
+		final JSpinner spHeight = new JSpinner();
+		spHeight.setModel(new SpinnerNumberModel(1, 1, 150, 1));
+		
+		final JSpinner spWidth = new JSpinner();
+		spWidth.setModel(new SpinnerNumberModel(1, 1, 125, 1));
+		
 		JButton btnGenerate = new JButton("Generálás");
 		btnGenerate.addMouseListener(new MouseAdapter() {
 			@Override
@@ -112,6 +102,17 @@ public class AppWindow {
 				 *   Kirakni az egészet egy külön mainbe?? JÓ ÖTLET! */
 				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
 				 * meghívódik ez a függvény! */
+				
+				try {
+					Integer height = (Integer)(spHeight.getValue());
+					Integer width = (Integer)(spWidth.getValue());
+					
+					labyrinth = new Labyrinth(height, width);
+					labyrinth.Generate();
+				} catch (Exception exept) {
+					// TODO: handle exception
+					// ha mégsem lenne jó a height width
+				}
 			}
 		});
 		btnGenerate.setBounds(30, 117, 101, 23);
@@ -127,7 +128,7 @@ public class AppWindow {
 				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
 				 * meghívódik ez a függvény! */
 			}
-		});
+		});		
 		btnSave.setBounds(30, 165, 101, 23);
 		frmMain.getContentPane().add(btnSave);
 		
@@ -233,22 +234,6 @@ public class AppWindow {
 		 * 
 		 * 
 		 * */		
-	
-		JPanel pSettings = new JPanel();
-		pSettings.setBorder(new EmptyBorder(0, 0, 0, 0));
-		pSettings.setBackground(SystemColor.scrollbar);
-		pSettings.setBounds(10, 22, 148, 75);
-		frmMain.getContentPane().add(pSettings);
-		
-		JLabel lblHeight = new JLabel("Magasság:");
-		
-		JLabel lblWidth = new JLabel("Szélesség:");
-		
-		JSpinner spHeight = new JSpinner();
-		spHeight.setModel(new SpinnerNumberModel(1, 1, 150, 1));
-		
-		JSpinner spWidth = new JSpinner();
-		spWidth.setModel(new SpinnerNumberModel(1, 1, 125, 1));
 		
 		GroupLayout gl_pSettings = new GroupLayout(pSettings);
 		gl_pSettings.setHorizontalGroup(
