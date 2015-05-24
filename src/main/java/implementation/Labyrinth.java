@@ -42,8 +42,8 @@ public class Labyrinth {
 	/**
 	 * Creates an initial labyrinth with the given size.
 	 * 
-	 * @param x width of labyrinth
-	 * @param y height of labyrinth
+	 * @param w width of labyrinth
+	 * @param h height of labyrinth
 	 */
 	public Labyrinth(int w, int h){
 		/** Setting the labyrinth's sizes. */
@@ -202,31 +202,31 @@ public class Labyrinth {
 		/**
 		 * Setting the borders of the labyrinth.
 		 */
-		int bsSize = 0;
+		int bsLength = 0;
 		
 		/** 
 		 * Top side of the labyrinth. 
 		 */
-		bsSize = horizontalWalls.get(0).size();
-		horizontalWalls.get(0).flip(0, bsSize);
+		bsLength = horizontalWalls.get(0).size();
+		horizontalWalls.get(0).flip(0, bsLength);
 		
 		/** 
 		 * Bottom side of the labyrinth. 
 		 */
-		bsSize = horizontalWalls.get(horizontalWalls.size() - 1).size();
-		horizontalWalls.get(horizontalWalls.size() - 1).flip(0, bsSize);
+		bsLength = horizontalWalls.get(horizontalWalls.size() - 1).size();
+		horizontalWalls.get(horizontalWalls.size() - 1).flip(0, bsLength);
 		
 		/**
 		 *  Left side of the labyrinth. 
 		 */
-		bsSize = verticalWalls.get(0).size();
-		verticalWalls.get(0).flip(0, bsSize);
+		bsLength = verticalWalls.get(0).size();
+		verticalWalls.get(0).flip(0, bsLength);
 		
 		/**
 		 * Right side of the labyrinth. 
 		 */
-		bsSize = verticalWalls.get(verticalWalls.size() - 1).size();
-		verticalWalls.get(verticalWalls.size() - 1).flip(0, bsSize);
+		bsLength = verticalWalls.get(verticalWalls.size() - 1).size();
+		verticalWalls.get(verticalWalls.size() - 1).flip(0, bsLength);
 	}
 	
 	
@@ -283,20 +283,20 @@ public class Labyrinth {
 		 * which side and line will filled. 
 		 */
 		while ( !(hIndexes.isEmpty() && vIndexes.isEmpty()) ){
-			hORv = rand.nextInt(2);
+			hORv = rand.nextInt(4);
 			
 			/**
 			 * If one of the arrays is empty, it's fixed that which
 			 * side needs to be chosen.
 			 */
 			if (hIndexes.isEmpty())
-				hORv = 1;
+				hORv = rand.nextInt(2) + 2;
 			if (vIndexes.isEmpty())
-				hORv = 0;
+				hORv = rand.nextInt(2);
 			
 			/** 
-			 * If hORv is 0 then generates a horizontal line otherwise it's
-			 * generates a vertical line.
+			 * If hORv is 0 or 1 then generates a horizontal line.
+			 * If it is 2 or 3 it's generates a vertical line.
 			 * The number of line is choosed by random numbers too.
 			 * 
 			 * The generating method is:
@@ -313,14 +313,44 @@ public class Labyrinth {
 				/**
 				 * Generating.
 				 */
-				for(int i = 0; i < horizontalWalls.get(line).size() ; i++){
-					if (verticalWalls.get(i).get(line - 1) || verticalWalls.get(i).get(line)){
+				for(int i = 0; i < width ; i++){
+					if (verticalWalls.get(i).get(line - 1) || verticalWalls.get(i).get(line))
 						horizontalWalls.get(line).set(i, false);
-					}
-					else{
+					else
 						horizontalWalls.get(line).set(i, true);
-					}
 				}	
+			}
+			else if (hORv == 1){
+				/**
+				 * Get line number
+				 */
+				line = hIndexes.remove( rand.nextInt(hIndexes.size()) );
+				
+				/**
+				 * Generating.
+				 */
+				for(int i = 0; i < width ; i++){
+					if (verticalWalls.get(i + 1).get(line - 1) || verticalWalls.get(i + 1).get(line))
+						horizontalWalls.get(line).set(i, false);
+					else
+						horizontalWalls.get(line).set(i, true);
+				}
+			}
+			else if (hORv == 2){
+				/**
+				 * Get line number
+				 */
+				line = vIndexes.remove( rand.nextInt(vIndexes.size()) );
+				
+				/**
+				 * Generating.
+				 */
+				for(int i = 0; i < height ; i++){
+					if (horizontalWalls.get(i + 1).get(line - 1) || horizontalWalls.get(i + 1).get(line))
+						verticalWalls.get(line).set(i, false);
+					else
+						verticalWalls.get(line).set(i, true);
+				}
 			}
 			else{
 				/**
@@ -331,13 +361,11 @@ public class Labyrinth {
 				/**
 				 * Generating.
 				 */
-				for(int i = 0; i < verticalWalls.get(line).size() ; i++){
-					if (horizontalWalls.get(i).get(line - 1) || horizontalWalls.get(i).get(line)){
+				for(int i = 0; i < height ; i++){
+					if (horizontalWalls.get(i).get(line - 1) || horizontalWalls.get(i).get(line))
 						verticalWalls.get(line).set(i, false);
-					}
-					else{
+					else
 						verticalWalls.get(line).set(i, true);
-					}
 				}	
 			}
 		}

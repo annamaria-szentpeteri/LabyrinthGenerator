@@ -77,7 +77,7 @@ public class AppWindow {
 				
 				for (Boolean border: labyrinth.getFieldBorders(x, y)){
 					if(border){
-						borders.add(2);
+						borders.add(1);
 					}
 					else{
 						borders.add(0);
