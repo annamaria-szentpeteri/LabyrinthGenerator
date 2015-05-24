@@ -6,7 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Component;
-import java.awt.Canvas;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -139,10 +138,10 @@ public class AppWindow {
 		JLabel lblWidth = new JLabel("Szélesség:");
 		
 		final JSpinner spHeight = new JSpinner();
-		spHeight.setModel(new SpinnerNumberModel(1, 1, 150, 1));
+		spHeight.setModel(new SpinnerNumberModel(1, 1, 50, 1));
 		
 		final JSpinner spWidth = new JSpinner();
-		spWidth.setModel(new SpinnerNumberModel(1, 1, 125, 1));
+		spWidth.setModel(new SpinnerNumberModel(1, 1, 50, 1));
 		
 		JButton btnGenerate = new JButton("Generálás");
 		btnGenerate.addMouseListener(new MouseAdapter() {
@@ -152,7 +151,7 @@ public class AppWindow {
 					Integer height = (Integer)(spHeight.getValue());
 					Integer width = (Integer)(spWidth.getValue());
 					
-					labyrinth = new Labyrinth(height, width);
+					labyrinth = new Labyrinth(width, height);
 					labyrinth.Generate();
 					
 					drawLabyrinth(pLabyrinth);

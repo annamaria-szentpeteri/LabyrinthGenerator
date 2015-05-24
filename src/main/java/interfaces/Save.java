@@ -8,5 +8,7 @@ package interfaces;
  *
  */
 public interface Save {
-
+	String filename = "labyrinth.json";
+	
+	void SaveToFile(String filename);
 }

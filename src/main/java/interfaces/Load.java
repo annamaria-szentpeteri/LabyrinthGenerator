@@ -8,5 +8,7 @@ package interfaces;
  *
  */
 public interface Load {
+	String filename = "labyrinth.json";
 
+	void LoadFromFile(String filename);
 }

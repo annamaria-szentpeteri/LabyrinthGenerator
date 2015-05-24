@@ -3,9 +3,13 @@
  */
 package implementation;
 
+import interfaces.Load;
+import interfaces.Save;
+
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Random;
+import com.eclipsesource.json.*;
 
 /**
  * @author Mari
@@ -19,7 +23,7 @@ import java.util.Random;
  * 
  * Detailed descreption of functionality and structure comes here.
  */
-public class Labyrinth {
+public class Labyrinth implements Save, Load {
 	/**
 	 * Height of the labyrinth.
 	 */
@@ -369,5 +373,17 @@ public class Labyrinth {
 				}	
 			}
 		}
+	}
+
+//-------------------------------------------------------------------
+	
+	public void LoadFromFile(String filename) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void SaveToFile(String filename) {
+		// TODO Auto-generated method stub
+		
 	}
 }
