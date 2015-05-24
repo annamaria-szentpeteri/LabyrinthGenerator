@@ -113,7 +113,7 @@ public class Labyrinth {
 			/**
 			 * Add right border.
 			 */
-			result.add(verticalWalls.get(x).get(y + 1));
+			result.add(verticalWalls.get(x + 1).get(y));
 			
 		} catch (Exception e) {
 			e.printStackTrace(); 
@@ -240,7 +240,7 @@ public class Labyrinth {
 		/**
 		 * First needs a clean up to empty the labyrinth. 
 		 */
-		this.Init();
+		Init();
 		
 		/** 
 		 * Random number generator to randomize the generating method. 

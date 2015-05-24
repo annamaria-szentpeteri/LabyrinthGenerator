@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Canvas;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JSpinner;
@@ -45,6 +46,55 @@ public class AppWindow {
 		});
 	}
 	
+	/**
+	 * @param panel
+	 */
+	private void drawLabyrinth(JPanel panel){
+		panel.removeAll();
+		
+		/**
+		 * Calculating the width and height of fields.
+		 */
+		int width = panel.getWidth() / labyrinth.getWidth();
+		int height = panel.getHeight() / labyrinth.getHeight();
+		
+//		/**
+//		 * Resizing the panel to fit the fields.
+//		 */
+//		int pWidth = panel.getWidth() - (panel.getWidth() % labyrinth.getWidth());
+//		int pHeight = panel.getHeight() - (panel.getHeight() % labyrinth.getHeight());
+//		panel.setBounds(panel.getX(), panel.getY(), pWidth, pHeight);
+		
+		/**
+		 * Generating dynamically the fields.
+		 */
+		for (int y = 0; y < labyrinth.getHeight(); y++){
+			for (int x = 0; x < labyrinth.getWidth(); x++){
+				JPanel fieldpanel = new JPanel();				
+				fieldpanel.setBounds(x*width, y*height, width, height);
+				
+				ArrayList<Integer> borders = new ArrayList<Integer>();
+				
+				for (Boolean border: labyrinth.getFieldBorders(x, y)){
+					if(border){
+						borders.add(2);
+					}
+					else{
+						borders.add(0);
+					}
+				}
+				
+				fieldpanel.setBorder(new MatteBorder(borders.get(0), borders.get(1), borders.get(2), borders.get(3),
+						             (Color) new Color(0, 0, 0))
+				                    );
+				
+				fieldpanel.setVisible(true);
+				panel.add(fieldpanel);
+			}
+		}
+		
+		panel.repaint();
+	}
 	
 	/**
 	 * @param visibility sdf
@@ -73,6 +123,11 @@ public class AppWindow {
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMain.getContentPane().setLayout(null);
 		
+		final JPanel pLabyrinth = new JPanel();
+		pLabyrinth.setBounds(174, 11, 350, 300);
+		frmMain.getContentPane().add(pLabyrinth);
+		pLabyrinth.setLayout(null);
+		
 		JPanel pSettings = new JPanel();
 		pSettings.setBorder(new EmptyBorder(0, 0, 0, 0));
 		pSettings.setBackground(SystemColor.scrollbar);
@@ -93,21 +148,14 @@ public class AppWindow {
 		btnGenerate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				/* TODO */
-				/* Hívja meg a labirintus generálást:
-				 *   - generáljon labirintust
-				 *   - töltse fel a pLabyrinth-t a generált labirintus alapján
-				 *   - tárolja le valahogy a labirintust
-				 *     (na de hogy? Üzleti logika váljon el minél jobban ugyebár!)
-				 *   Kirakni az egészet egy külön mainbe?? JÓ ÖTLET! */
-				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
-				 * meghívódik ez a függvény! */
 				try {
 					Integer height = (Integer)(spHeight.getValue());
 					Integer width = (Integer)(spWidth.getValue());
 					
 					labyrinth = new Labyrinth(height, width);
 					labyrinth.Generate();
+					
+					drawLabyrinth(pLabyrinth);
 				} catch (Exception exept) {
 					exept.printStackTrace();
 				}
@@ -154,11 +202,6 @@ public class AppWindow {
 		btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnExit.setBounds(30, 253, 101, 23);
 		frmMain.getContentPane().add(btnExit);
-		
-		JPanel pLabyrinth = new JPanel();
-		pLabyrinth.setBounds(174, 11, 350, 300);
-		frmMain.getContentPane().add(pLabyrinth);
-		pLabyrinth.setLayout(null);
 
 		
 		/*
@@ -187,51 +230,7 @@ public class AppWindow {
 		 * 
 		 * Ekkor a jelenleg elképzelt adatszerkezeten kényelmesen
 		 * végig tudnék menni.
-		 * */
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new MatteBorder(2, 2, 0, 0, (Color) new Color(0, 0, 0)));
-		panel_2.setBounds(0, 0, 10, 10);
-		pLabyrinth.add(panel_2);
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new MatteBorder(2, 0, 2, 2, (Color) new Color(0, 0, 0)));
-		panel_3.setBounds(10, 0, 10, 10);
-		pLabyrinth.add(panel_3);
-		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new MatteBorder(2, 2, 0, 0, (Color) new Color(0, 0, 0)));
-		panel_4.setBounds(20, 0, 10, 10);
-		pLabyrinth.add(panel_4);
-		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new MatteBorder(2, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		panel_5.setBounds(30, 0, 10, 10);
-		pLabyrinth.add(panel_5);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new MatteBorder(0, 2, 0, 2, (Color) new Color(0, 0, 0)));
-		panel.setBounds(0, 10, 10, 10);
-		pLabyrinth.add(panel);
-		panel.setLayout(null);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(2, 2, 2, 0, (Color) new Color(0, 0, 0)));
-		panel_1.setBounds(10, 10, 10, 10);
-		pLabyrinth.add(panel_1);
-		
-		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		panel_6.setBounds(20, 10, 10, 10);
-		pLabyrinth.add(panel_6);
-		
-		Canvas canvas = new Canvas();
-		canvas.setBounds(68, 64, 100, 100);
-		pLabyrinth.add(canvas);
-		/*
-		 * #MINTA-END#
-		 * 
-		 * 
-		 * */		
+		 * */	
 		
 		GroupLayout gl_pSettings = new GroupLayout(pSettings);
 		gl_pSettings.setHorizontalGroup(
