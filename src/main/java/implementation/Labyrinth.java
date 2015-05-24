@@ -5,7 +5,6 @@ package implementation;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -37,7 +36,8 @@ public class Labyrinth {
 	 * Array which stores the vertical positioned walls.
 	 */
 	private ArrayList<BitSet> verticalWalls;
-	
+
+//-------------------------------------------------------------------
 	
 	/**
 	 * Creates an initial labyrinth with the given size.
@@ -45,10 +45,10 @@ public class Labyrinth {
 	 * @param x width of labyrinth
 	 * @param y height of labyrinth
 	 */
-	public Labyrinth(int x, int y){
+	public Labyrinth(int w, int h){
 		/** Setting the labyrinth's sizes. */
-		width = x;
-		height = y;
+		width = w;
+		height = h;
 		
 		/** Creating arrays which holds horizontal and vertical walls. */
 		horizontalWalls = new ArrayList<BitSet>();
@@ -63,8 +63,12 @@ public class Labyrinth {
 		
 		Init();
 	}
+
+//-------------------------------------------------------------------
 	
 	/**
+	 * Returns the height of the labyrinth.
+	 * 
 	 * @return height of the labyrinth
 	 */
 	public int getHeight(){
@@ -72,6 +76,8 @@ public class Labyrinth {
 	}
 	
 	/**
+	 * Returns the width of the labyrinth.
+	 * 
 	 * @return width of the labyrinth
 	 */
 	public int getWidth(){
@@ -84,21 +90,94 @@ public class Labyrinth {
 	 * 
 	 * @param x horizontal coordinate of the field
 	 * @param y vertical coordinate of the field
-	 * @return a [top, left, bottom, right] array which members are either 0 (no border) or 1 (border)
+	 * @return a [top, left, bottom, right] array which members are either true or false
 	 */
-	public List<Integer> getFieldBorders(int x, int y){
-		//out of border-e valamelyik -> Exception
-		List<Integer> result = null; 
+	public ArrayList<Boolean> getFieldBorders(int x, int y){
+		ArrayList<Boolean> result = null; 
 		
 		try {
+			result = new ArrayList<Boolean>();
+			
+			/**
+			 * Add top border.
+			 */
+			result.add(horizontalWalls.get(y).get(x));
+			/**
+			 * Add left border.
+			 */
+			result.add(verticalWalls.get(x).get(y));
+			/**
+			 * Add bottom border.
+			 */
+			result.add(horizontalWalls.get(y + 1).get(x));
+			/**
+			 * Add right border.
+			 */
+			result.add(verticalWalls.get(x).get(y + 1));
 			
 		} catch (Exception e) {
-			// TODO: handle exception
-			// Loggold ha exception keletkezett 
+			e.printStackTrace(); 
 		}
 		
  		return result;
 	}
+
+//-------------------------------------------------------------------
+	
+	/**
+	 * Sets the height of the labyrinth
+	 * 
+	 * @param h the given height
+	 */
+	public void setHeight(int h){
+		height = h;
+	}
+	
+	/**
+	 * Sets the width of the labyrinth
+	 * 
+	 * @param w the given width
+	 */
+	public void setWidth(int w){
+		width = w;
+	}
+	
+	/**
+	 * Gets coordinates of a field and an array with information
+	 * about the borders in this strict order: top,left,bottom,right
+	 * 
+	 * Sets the field's borders by the given information.
+	 * 
+	 * @param x horizontal coordinate of the field
+	 * @param y vertical coordinate of the field
+	 * @param borders a [top, left, bottom, right] array which contains
+	 *                information about the field's borders
+	 */
+	public void setFieldBorders(int x, int y, ArrayList<Boolean> borders){
+		try {			
+			/**
+			 * Set top border.
+			 */
+			horizontalWalls.get(y).set(x, borders.remove(0));
+			/**
+			 * Set left border.
+			 */
+			verticalWalls.get(x).set(y, borders.remove(0));
+			/**
+			 * Set bottom border.
+			 */
+			horizontalWalls.get(y + 1).set(x, borders.remove(0));
+			/**
+			 * Set right border.
+			 */
+			verticalWalls.get(x).set(y + 1, borders.remove(0));
+			
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		}
+	}
+
+//-------------------------------------------------------------------
 	
 	/**
 	 * Clears the labyrinth. Creates the borders of the
@@ -149,6 +228,7 @@ public class Labyrinth {
 		bsSize = verticalWalls.get(verticalWalls.size() - 1).size();
 		verticalWalls.get(verticalWalls.size() - 1).flip(0, bsSize);
 	}
+	
 	
 	/**
 	 * Generates a random labyrinth.
@@ -218,6 +298,11 @@ public class Labyrinth {
 			 * If hORv is 0 then generates a horizontal line otherwise it's
 			 * generates a vertical line.
 			 * The number of line is choosed by random numbers too.
+			 * 
+			 * The generating method is:
+			 * 	- check if perpendicularly have a border "behind" the current line
+			 * 	- if yes: then don't put wall there
+			 *  - if no: then put a wall there
 			 */
 			if (hORv == 0){
 				/**
@@ -226,10 +311,7 @@ public class Labyrinth {
 				line = hIndexes.remove( rand.nextInt(hIndexes.size()) );
 				
 				/**
-				 * Menj végig a kiválasztott vonalon, de hogy?
-				 *  - ha "mögötte" fal van másik irányú falból, akkor hagyja ki
-				 *    azt, ahol most tart
-				 *  - ha nincs "mögötte" íly módon fel, akkor rakjon falat 
+				 * Generating.
 				 */
 				for(int i = 0; i < horizontalWalls.get(line).size() ; i++){
 					if (verticalWalls.get(i).get(line - 1) || verticalWalls.get(i).get(line)){
@@ -247,10 +329,7 @@ public class Labyrinth {
 				line = vIndexes.remove( rand.nextInt(vIndexes.size()) );
 				
 				/**
-				 * Menj végig a kiválasztott vonalon, de hogy?
-				 *  - ha "mögötte" fal van másik irányú falból, akkor hagyja ki
-				 *    azt, ahol most tart
-				 *  - ha nincs "mögötte" íly módon fel, akkor rakjon falat 
+				 * Generating.
 				 */
 				for(int i = 0; i < verticalWalls.get(line).size() ; i++){
 					if (horizontalWalls.get(i).get(line - 1) || horizontalWalls.get(i).get(line)){
@@ -263,6 +342,4 @@ public class Labyrinth {
 			}
 		}
 	}
-	
-	
 }

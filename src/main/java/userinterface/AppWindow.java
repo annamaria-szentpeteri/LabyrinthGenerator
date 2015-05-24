@@ -102,7 +102,6 @@ public class AppWindow {
 				 *   Kirakni az egészet egy külön mainbe?? JÓ ÖTLET! */
 				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
 				 * meghívódik ez a függvény! */
-				
 				try {
 					Integer height = (Integer)(spHeight.getValue());
 					Integer width = (Integer)(spWidth.getValue());
@@ -110,8 +109,7 @@ public class AppWindow {
 					labyrinth = new Labyrinth(height, width);
 					labyrinth.Generate();
 				} catch (Exception exept) {
-					// TODO: handle exception
-					// ha mégsem lenne jó a height width
+					exept.printStackTrace();
 				}
 			}
 		});
