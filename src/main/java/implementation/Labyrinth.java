@@ -142,24 +142,70 @@ public class Labyrinth {
 	 * 
 	 */
 	public void Generate(){
-		this.Init();	/** First needs a clean up to empty the labyrinth. */
-		
-		/** Generating algorythm. */
-		Random rand = new Random();
-		Integer hORv;
-		Integer line;
-		
-		hORv = rand.nextInt(2);
+		/**
+		 * First needs a clean up to empty the labyrinth. 
+		 */
+		this.Init();
 		
 		/** 
-		 * If hORv is 0 then generates a horizontal line otherwise it's
-		 * generates a vertical line.
-		 * The number of line is choosed by random numbers too. */
-		if (hORv == 0){
-			
+		 * Random number generator to randomize the generating method. 
+		 */
+		Random rand = new Random();
+		
+		/**
+		 * Vertical or horizontal walls will be generated
+		 * depending on this variable. 
+		 */
+		Integer hORv;
+		
+		/**
+		 * Decides that which line will be filled with walls.
+		 */
+		Integer line;
+		
+		/** 
+		 * Arrays to handle which lines were filled and which wasn't.
+		 */
+		ArrayList<Integer> hIndexes = new ArrayList<Integer>();
+		ArrayList<Integer> vIndexes = new ArrayList<Integer>();
+		
+		/**
+		 * Filling the arrays with line numbers. 
+		 */
+		for(int i = 0; i < horizontalWalls.size(); i++){
+			hIndexes.add(i);
 		}
-		else{
+		for(int i = 0; i < verticalWalls.size(); i++){
+			vIndexes.add(i);
+		}
+		
+		/**
+		 * While both arrays have unfilled lines, decide randomly
+		 * which side and line will filled. 
+		 */
+		while ( !(hIndexes.isEmpty() && vIndexes.isEmpty()) ){
+			hORv = rand.nextInt(2);
 			
+			/**
+			 * If one of the arrays is empty, it's fixed that which
+			 * side needs to be chosen.
+			 */
+			if (hIndexes.isEmpty())
+				hORv = 1;
+			if (vIndexes.isEmpty())
+				hORv = 0;
+			
+			/** 
+			 * If hORv is 0 then generates a horizontal line otherwise it's
+			 * generates a vertical line.
+			 * The number of line is choosed by random numbers too.
+			 */
+			if (hORv == 0){
+			
+			}
+			else{
+				
+			}
 		}
 	}
 	
