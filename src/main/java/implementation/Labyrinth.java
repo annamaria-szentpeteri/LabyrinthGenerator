@@ -6,9 +6,22 @@ package implementation;
 import interfaces.Load;
 import interfaces.Save;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Random;
+
 import com.eclipsesource.json.*;
 
 /**
@@ -43,6 +56,10 @@ public class Labyrinth implements Save, Load {
 
 //-------------------------------------------------------------------
 	
+	public Labyrinth(){
+		this(1, 1);
+	}
+	
 	/**
 	 * Creates an initial labyrinth with the given size.
 	 * 
@@ -54,18 +71,11 @@ public class Labyrinth implements Save, Load {
 		width = w;
 		height = h;
 		
-		/** Creating arrays which holds horizontal and vertical walls. */
-		horizontalWalls = new ArrayList<BitSet>();
-		verticalWalls = new ArrayList<BitSet>();
-		
-		for(int i = 0; i < height + 1; i++){
-			horizontalWalls.add(new BitSet(width));
-		}
-		for(int i = 0; i < width + 1; i++){
-			verticalWalls.add(new BitSet(height));
-		}
-		
+		/** Creating the labyrinth in the given size. */
 		Init();
+		
+		/** Creating an empty labyrinth. */
+		Empty();
 	}
 
 //-------------------------------------------------------------------
@@ -182,13 +192,30 @@ public class Labyrinth implements Save, Load {
 	}
 
 //-------------------------------------------------------------------
+
+	/**
+	 * Creates a labyrinth by the given width and height.
+	 * It's a completely raw structure, no wall information
+	 * will be set here.
+	 */
+	public void Init(){
+		horizontalWalls = new ArrayList<BitSet>();
+		verticalWalls = new ArrayList<BitSet>();
+		
+		for(int i = 0; i < height + 1; i++){
+			horizontalWalls.add(new BitSet(width));
+		}
+		for(int i = 0; i < width + 1; i++){
+			verticalWalls.add(new BitSet(height));
+		}
+	}
 	
 	/**
 	 * Clears the labyrinth. Creates the borders of the
 	 * labyrinth and deletes the inner walls making a
 	 * clean "room".
 	 */
-	public void Init(){
+	public void Empty(){
 		/**
 		 * Deleting all horizontal walls.
 		 */
@@ -244,7 +271,7 @@ public class Labyrinth implements Save, Load {
 		/**
 		 * First needs a clean up to empty the labyrinth. 
 		 */
-		Init();
+		Empty();
 		
 		/** 
 		 * Random number generator to randomize the generating method. 
@@ -376,14 +403,138 @@ public class Labyrinth implements Save, Load {
 	}
 
 //-------------------------------------------------------------------
-	
-	public void LoadFromFile(String filename) {
-		// TODO Auto-generated method stub
-		
+	/* (non-Javadoc)
+	 * @see interfaces.Load#LoadFromFile()
+	 */
+	public Boolean LoadFromFile() {
+		return LoadFromFile(Load.FILENAME);
 	}
 
-	public void SaveToFile(String filename) {
-		// TODO Auto-generated method stub
+	/* (non-Javadoc)
+	 * @see interfaces.Save#SaveToFile()
+	 */
+	public Boolean SaveToFile() {
+		return SaveToFile(Save.FILENAME);		
+	}
+	
+	/* (non-Javadoc)
+	 * @see interfaces.Load#LoadFromFile(java.lang.String)
+	 */
+	public Boolean LoadFromFile(String filename) {
+		Boolean done = false;
 		
+		try (InputStream input = new FileInputStream(filename);){
+			Reader in = new BufferedReader(new InputStreamReader(input));
+			
+			JsonObject jo = JsonObject.readFrom(in);
+			
+			this.setHeight( jo.get("height").asInt() );
+			this.setWidth( jo.get("width").asInt() );
+			
+			Init();
+			
+			JsonArray horizontal = jo.get("horizontal").asArray();
+			JsonArray vertical = jo.get("vertical").asArray();
+			
+			for(Integer i = 0; i < (height + 1); i++){
+				String value = horizontal.get(i).asObject().get(i.toString()).asString();
+				
+				for(int j = 0; j < width; j++){
+					if (value.charAt(j) == '1')
+						horizontalWalls.get(i).set(j);
+					else
+						horizontalWalls.get(i).clear(j);
+				}
+			}
+			
+			for(Integer i = 0; i < (width + 1); i++){
+				String value = vertical.get(i).asObject().get(i.toString()).asString();
+				
+				for(int j = 0; j < height; j++){
+					if (value.charAt(j) == '1')
+						verticalWalls.get(i).set(j);
+					else
+						verticalWalls.get(i).clear(j);
+				}
+			}
+			
+			done = true;
+			
+			in.close();
+			input.close();
+		} catch (FileNotFoundException e) {
+			// TODO 
+			// loggba
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 
+			// loggba			
+			e.printStackTrace();
+		}
+		
+		return done;
+	}
+
+	/* (non-Javadoc)
+	 * @see interfaces.Save#SaveToFile(java.lang.String)
+	 */
+	public Boolean SaveToFile(String filename) {
+		Boolean done = false;
+		
+		try (OutputStream output = new FileOutputStream(filename);){
+			Writer out = new BufferedWriter(new OutputStreamWriter(output));
+			
+			JsonObject jo = new JsonObject();
+			
+			jo.add("width", width);
+			jo.add("height", height);
+			
+			JsonArray horizontal = new JsonArray();
+			JsonArray vertical = new JsonArray();
+			
+			for(Integer i = 0; i < horizontalWalls.size(); i++){
+				String id = i.toString();
+				String value = "";
+				
+				for(int j = 0; j < width; j++){
+					if (horizontalWalls.get(i).get(j))
+						value = value.concat("1");
+					else
+						value = value.concat("0");
+				}
+				
+				horizontal.add( new JsonObject().add(id, value) );
+			}
+			
+			for(Integer i = 0; i < verticalWalls.size(); i++){
+				String id = i.toString();
+				String value = "";
+				
+				for(int j = 0; j < height; j++){
+					if (verticalWalls.get(i).get(j))
+						value = value.concat("1");
+					else
+						value = value.concat("0");
+				}
+				
+				vertical.add( new JsonObject().add(id, value) );
+			}
+			
+			jo.add("horizontal", horizontal);
+			jo.add("vertical", vertical);
+			
+			jo.writeTo(out);
+			
+			done = true;
+			
+			out.close();
+			output.close();
+		} catch (Exception e) {
+			// TODO 
+			// loggba
+			e.printStackTrace();
+		}	
+		
+		return done;
 	}
 }

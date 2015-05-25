@@ -8,9 +8,11 @@ import java.awt.SystemColor;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -25,14 +27,14 @@ import javax.swing.SpinnerNumberModel;
 public class AppWindow {
 
 	private JFrame frmMain;
-	private Labyrinth labyrinth;
+	private Labyrinth labyrinth = new Labyrinth();
 
 	/**
 	 * Launch the application.
 	 * 
 	 * @param args sdfsd
 	 */
-	public static void main(String[] args) {		
+	public static void main(String[] args) {	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -164,29 +166,32 @@ public class AppWindow {
 		frmMain.getContentPane().add(btnGenerate);
 		
 		JButton btnSave = new JButton("Mentés");
+		btnSave.setBounds(30, 165, 101, 23);
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				/* TODO */
-				/* Hívja meg a labirintus mentést:
-				 * */
-				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
-				 * meghívódik ez a függvény! */
+				if (!labyrinth.SaveToFile()){
+					// TODO 
+					// Felugró ablak az üzenettel: "Mentés sikertelen. A fájlt nem módosítható vagy nem lehet létrehozni."
+					JOptionPane.showMessageDialog(frmMain, "Mentés sikertelen. A fájlt nem módosítható vagy nem lehet létrehozni.");
+				}
 			}
 		});		
-		btnSave.setBounds(30, 165, 101, 23);
 		frmMain.getContentPane().add(btnSave);
 		
 		JButton btnLoad = new JButton("Betöltés");
 		btnLoad.setBounds(30, 199, 101, 23);
-		btnSave.addMouseListener(new MouseAdapter() {
+		btnLoad.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				/* TODO */
-				/* Hívja meg a labirintus betöltést:
-				 * */
-				/* Itt lehetne loggolást használni arra hogy lássam gombnyomáskor tényleg
-				 * meghívódik ez a függvény! */
+				if (labyrinth.LoadFromFile()){
+					drawLabyrinth(pLabyrinth);
+				}
+				else{
+					// TODO 
+					// Felugró ablak az üzenettel: "Betöltés sikertelen. A fájl nem létezik vagy nem olvasható."
+					JOptionPane.showMessageDialog(frmMain, "Betöltés sikertelen. A fájl nem létezik vagy nem olvasható.");
+				}
 			}
 		});
 		frmMain.getContentPane().add(btnLoad);
@@ -201,36 +206,7 @@ public class AppWindow {
 		btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnExit.setBounds(30, 253, 101, 23);
 		frmMain.getContentPane().add(btnExit);
-
-		
-		/*
-		 * #MINTA-START#
-		 * Ezt dinamikusan kell majd generálni a visszaadott labirintus alapján.
-		 * 
-		 * Be kell állítani a pLabyrinth méretét (x pixel / mező) és ez alapján
-		 * létrehozni a pLabyrinth tagjaiként további JPaneleket, amiknek a
-		 * borderjét és helyzetét megfelelően be kell állítani.
-		 * 
-		 * Mindezt a Labyrinth.java oldaláról úgy old meg, hogy ha az változna
-		 * a grafikus felület ezen generálós részét ne kelljen változtatni.
-		 * Vagyis kell a Labyrinth.java-nak egy olyan metódus, ami bemenetként
-		 * megkapja, hogy melyik mezőről (sor, oszlop koordináta) kéri le a 4 
-		 * fal információt (top, left, bottom, right) és ezt adja vissza.
-		 * (0 - van fal, 1 - nincs fal) 
-		 * 
-		 * ALTERNATÍVA
-		 * 
-		 * Canvas használata
-		 * Canvas-ból származtatsz egy saját osztályt
-		 * ( meg UI kódban átírod h azt példányosítsa )
-		 * a paint metódust override-olod
-		 * az kap argumentumnak egy Graphics példányt
-		 * azzal lehet rajzolni, vagy kasztolhatod Graphics2D-re
-		 * 
-		 * Ekkor a jelenleg elképzelt adatszerkezeten kényelmesen
-		 * végig tudnék menni.
-		 * */	
-		
+	
 		GroupLayout gl_pSettings = new GroupLayout(pSettings);
 		gl_pSettings.setHorizontalGroup(
 			gl_pSettings.createParallelGroup(Alignment.LEADING)

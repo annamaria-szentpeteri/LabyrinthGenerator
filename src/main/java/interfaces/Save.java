@@ -8,7 +8,24 @@ package interfaces;
  *
  */
 public interface Save {
-	String filename = "labyrinth.json";
+	/**
+	 * The default output name.
+	 */
+	String FILENAME = "./labyrinth.json";
 	
-	void SaveToFile(String filename);
+	/**
+	 * Saves information to the default file.
+	 * @return return value is true if the saving
+	 *         process was successfull
+	 */
+	Boolean SaveToFile();
+	
+	/**
+	 * Saves information to the given file.
+	 * 
+	 * @param filename
+	 * @return return value is true if the saving
+	 *         process was successfull
+	 */
+	Boolean SaveToFile(String filename);
 }
