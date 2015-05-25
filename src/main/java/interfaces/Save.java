@@ -8,9 +8,7 @@ package interfaces;
  *
  */
 public interface Save {
-	/**
-	 * The default output name.
-	 */
+	/** The default output name. */
 	String FILENAME = "./labyrinth.json";
 	
 	/**

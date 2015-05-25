@@ -36,25 +36,17 @@ import com.eclipsesource.json.*;
  * Detailed descreption of functionality and structure comes here.
  */
 public class Labyrinth implements Save, Load {
-	/**
-	 * Height of the labyrinth.
-	 */
+	/** Height of the labyrinth. */
 	private Integer height;
-	/**
-	 * Width of the labyrinth.
-	 */
+	/** Width of the labyrinth. */
 	private Integer width;
-	/**
-	 * Array which stores the horizontal positioned walls.
-	 */
+	/** Array which stores the horizontal positioned walls. */
 	private ArrayList<BitSet> horizontalWalls;
-	/**
-	 * Array which stores the vertical positioned walls.
-	 */
+	/** Array which stores the vertical positioned walls. */
 	private ArrayList<BitSet> verticalWalls;
 
 //-------------------------------------------------------------------
-	
+	/** Creates an initial labyrinth with the size 1x1. */
 	public Labyrinth(){
 		this(1, 1);
 	}
@@ -352,11 +344,13 @@ public class Labyrinth implements Save, Load {
 			 * The number of line is choosed by random numbers too.
 			 * 
 			 * The generating method is:
-			 * 	- check if perpendicularly have a border "behind" the current line
-			 * 	- if yes: then don't put wall there
-			 *  - if no: then put a wall there
+			 * 	- check if perpendicularly have a border "behind" (hORv = 0 in 
+			 *    the for cycle) or "before" (hORv = 1 in the for cycle) the 
+			 *    current line
+			 * 	     - yes: don't put wall there
+			 *       - no: put wall there
 			 */
-			if (hORv == 0){
+			if ((hORv == 0) || (hORv == 1)){
 				/**
 				 * Get line number
 				 */
@@ -366,45 +360,15 @@ public class Labyrinth implements Save, Load {
 				 * Generating.
 				 */
 				for(int i = 0; i < width ; i++){
-					if (verticalWalls.get(i).get(line - 1) || verticalWalls.get(i).get(line))
+					if (verticalWalls.get(i + hORv).get(line - 1) || verticalWalls.get(i + hORv).get(line))
 						horizontalWalls.get(line).set(i, false);
 					else
 						horizontalWalls.get(line).set(i, true);
 				}	
-			}
-			else if (hORv == 1){
-				/**
-				 * Get line number
-				 */
-				line = hIndexes.remove( rand.nextInt(hIndexes.size()) );
-				
-				/**
-				 * Generating.
-				 */
-				for(int i = 0; i < width ; i++){
-					if (verticalWalls.get(i + 1).get(line - 1) || verticalWalls.get(i + 1).get(line))
-						horizontalWalls.get(line).set(i, false);
-					else
-						horizontalWalls.get(line).set(i, true);
-				}
-			}
-			else if (hORv == 2){
-				/**
-				 * Get line number
-				 */
-				line = vIndexes.remove( rand.nextInt(vIndexes.size()) );
-				
-				/**
-				 * Generating.
-				 */
-				for(int i = 0; i < height ; i++){
-					if (horizontalWalls.get(i + 1).get(line - 1) || horizontalWalls.get(i + 1).get(line))
-						verticalWalls.get(line).set(i, false);
-					else
-						verticalWalls.get(line).set(i, true);
-				}
 			}
 			else{
+				hORv -= 2;
+				
 				/**
 				 * Get line number
 				 */
@@ -414,11 +378,11 @@ public class Labyrinth implements Save, Load {
 				 * Generating.
 				 */
 				for(int i = 0; i < height ; i++){
-					if (horizontalWalls.get(i).get(line - 1) || horizontalWalls.get(i).get(line))
+					if (horizontalWalls.get(i + hORv).get(line - 1) || horizontalWalls.get(i + hORv).get(line))
 						verticalWalls.get(line).set(i, false);
 					else
 						verticalWalls.get(line).set(i, true);
-				}	
+				}
 			}
 		}
 	}

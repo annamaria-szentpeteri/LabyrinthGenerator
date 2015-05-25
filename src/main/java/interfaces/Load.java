@@ -8,9 +8,7 @@ package interfaces;
  *
  */
 public interface Load {
-	/**
-	 * The default input name.
-	 */
+	/** The default input name. */
 	String FILENAME = "./labyrinth.json";
 
 	/**
