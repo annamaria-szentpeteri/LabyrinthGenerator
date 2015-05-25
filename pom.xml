@@ -47,8 +47,21 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
+					<finalName>Labyrinth-Generator</finalName>
 					<source>1.8</source>
 					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<finalName>Labyrinth-Generator</finalName>
+					<archive>
+						<manifest>
+							<mainClass>userinterface.AppWindow</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -86,6 +99,7 @@
 						</goals>
 						<phase>install</phase>
 						<configuration>
+							<finalName>Labyrinth-Generator</finalName>
 							<archive>
 								<manifest>
 									<mainClass>
@@ -99,6 +113,16 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.4</version>
 			</plugin>
 		</plugins>
 	</build>
