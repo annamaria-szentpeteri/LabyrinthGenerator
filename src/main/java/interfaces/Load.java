@@ -1,11 +1,10 @@
-/**
- * 
- */
 package interfaces;
 
 /**
- * @author Mari
- *
+ * @author Szentpéteri Annamária
+ * 
+ * <p>Interface which gives the methods
+ * to load your class from a file.
  */
 public interface Load {
 	/** The default input name. */

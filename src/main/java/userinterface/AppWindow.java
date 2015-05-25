@@ -23,6 +23,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.SpinnerNumberModel;
 
+/**
+ * @author Szentpéteri Annamária
+ *
+ */
 public class AppWindow {
 
 	private JFrame frmMain;

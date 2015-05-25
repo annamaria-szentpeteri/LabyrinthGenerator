@@ -1,11 +1,10 @@
-/**
- * 
- */
 package interfaces;
 
 /**
- * @author Mari
- *
+ * @author Szentpéteri Annamária
+ * 
+ * <p>Interface which gives the methods
+ * to save your class to a file.
  */
 public interface Save {
 	/** The default output name. */
@@ -13,6 +12,7 @@ public interface Save {
 	
 	/**
 	 * Saves information to the default file.
+	 * 
 	 * @return return value is true if the saving
 	 *         process was successfull
 	 */

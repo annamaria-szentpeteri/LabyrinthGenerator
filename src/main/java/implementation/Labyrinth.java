@@ -1,6 +1,3 @@
-/**
- * 
- */
 package implementation;
 
 import interfaces.Load;
@@ -25,16 +22,17 @@ import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonArray;
 
 /**
- * @author Mari
- * 
- * This class is the responsible for creating and 
+ * <p>This class is the responsible for creating and 
  * handling labyrinths. With this class you are
  * able to create a random labyrinth with the 
  * sizes given by you.
  * 
- * You are also able to save and load the labyrinth.
+ * <p>You are also able to save and load the labyrinth, because of
+ * the implementation of <i>Save</i> and <i>Load</i> interfaces.
  * 
- * Detailed descreption of functionality and structure comes here.
+ * <p>Detailed descreption of functionality and structure comes here.
+ * 
+ * @author Szentpéteri Annamária
  */
 public class Labyrinth implements Save, Load {
 	/** Height of the labyrinth. */
