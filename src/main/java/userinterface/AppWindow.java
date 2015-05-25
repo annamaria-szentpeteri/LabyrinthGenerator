@@ -8,7 +8,6 @@ import java.awt.SystemColor;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -39,7 +38,7 @@ public class AppWindow {
 			public void run() {
 				try {
 					AppWindow window = new AppWindow();
-					window.setVisible(true);
+					window.frmMain.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -58,13 +57,6 @@ public class AppWindow {
 		 */
 		int width = panel.getWidth() / labyrinth.getWidth();
 		int height = panel.getHeight() / labyrinth.getHeight();
-		
-//		/**
-//		 * Resizing the panel to fit the fields.
-//		 */
-//		int pWidth = panel.getWidth() - (panel.getWidth() % labyrinth.getWidth());
-//		int pHeight = panel.getHeight() - (panel.getHeight() % labyrinth.getHeight());
-//		panel.setBounds(panel.getX(), panel.getY(), pWidth, pHeight);
 		
 		/**
 		 * Generating dynamically the fields.
@@ -95,13 +87,6 @@ public class AppWindow {
 		}
 		
 		panel.repaint();
-	}
-	
-	/**
-	 * @param visibility sdf
-	 */
-	public void setVisible(boolean visibility){
-		frmMain.setVisible(visibility);
 	}
 	
 	/**
@@ -148,7 +133,7 @@ public class AppWindow {
 		JButton btnGenerate = new JButton("Generálás");
 		btnGenerate.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				try {
 					Integer height = (Integer)(spHeight.getValue());
 					Integer width = (Integer)(spWidth.getValue());
@@ -169,7 +154,7 @@ public class AppWindow {
 		btnSave.setBounds(30, 165, 101, 23);
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				if (!labyrinth.SaveToFile()){
 					// TODO 
 					// Felugró ablak az üzenettel: "Mentés sikertelen. A fájlt nem módosítható vagy nem lehet létrehozni."
@@ -183,7 +168,7 @@ public class AppWindow {
 		btnLoad.setBounds(30, 199, 101, 23);
 		btnLoad.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				if (labyrinth.LoadFromFile()){
 					drawLabyrinth(pLabyrinth);
 				}
@@ -199,7 +184,7 @@ public class AppWindow {
 		JButton btnExit = new JButton("Kilépés");
 		btnExit.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				System.exit(0);
 			}
 		});

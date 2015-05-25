@@ -194,7 +194,7 @@ public class Labyrinth implements Save, Load {
 //-------------------------------------------------------------------
 
 	/**
-	 * Creates a labyrinth by the given width and height.
+	 * Initialize the labyrinth.
 	 * It's a completely raw structure, no wall information
 	 * will be set here.
 	 */
@@ -263,9 +263,8 @@ public class Labyrinth implements Save, Load {
 	
 	/**
 	 * Generates a random labyrinth.
-	 * First, it's cleans the labyrinth with calling Init(), then
+	 * First, it's cleans the labyrinth, then
 	 * makes a new labyrinth randomly.
-	 * 
 	 */
 	public void Generate(){
 		/**
