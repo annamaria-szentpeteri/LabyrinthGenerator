@@ -9,7 +9,6 @@ import interfaces.Save;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,9 +66,19 @@ public class Labyrinth implements Save, Load {
 	 * @param h height of labyrinth
 	 */
 	public Labyrinth(int w, int h){
-		/** Setting the labyrinth's sizes. */
-		width = w;
-		height = h;
+		/** 
+		 * Setting the labyrinth's sizes while checking
+		 * if they are correct.
+		 */
+		if (w > 0)
+			width = w;
+		else
+			width = 1;
+		
+		if (h > 0)
+			height = h;
+		else
+			height = 1;
 		
 		/** Creating the labyrinth in the given size. */
 		Init();
@@ -130,7 +139,9 @@ public class Labyrinth implements Save, Load {
 			result.add(verticalWalls.get(x + 1).get(y));
 			
 		} catch (Exception e) {
+			// TODO loggba
 			e.printStackTrace(); 
+			result = null;
 		}
 		
  		return result;
@@ -144,7 +155,12 @@ public class Labyrinth implements Save, Load {
 	 * @param h the given height
 	 */
 	public void setHeight(int h){
-		height = h;
+		if (h > 0){
+			height = h;
+			
+			Init();
+			Empty();
+		}
 	}
 	
 	/**
@@ -153,7 +169,12 @@ public class Labyrinth implements Save, Load {
 	 * @param w the given width
 	 */
 	public void setWidth(int w){
-		width = w;
+		if (w > 0){
+			width = w;
+			
+			Init();
+			Empty();
+		}
 	}
 	
 	/**
@@ -184,9 +205,10 @@ public class Labyrinth implements Save, Load {
 			/**
 			 * Set right border.
 			 */
-			verticalWalls.get(x).set(y + 1, borders.remove(0));
+			verticalWalls.get(x + 1).set(y, borders.remove(0));
 			
 		} catch (Exception e) {
+			//TODO loggba
 			e.printStackTrace(); 
 		}
 	}
@@ -198,7 +220,7 @@ public class Labyrinth implements Save, Load {
 	 * It's a completely raw structure, no wall information
 	 * will be set here.
 	 */
-	public void Init(){
+	public void Init(){		
 		horizontalWalls = new ArrayList<BitSet>();
 		verticalWalls = new ArrayList<BitSet>();
 		
@@ -461,13 +483,8 @@ public class Labyrinth implements Save, Load {
 			
 			in.close();
 			input.close();
-		} catch (FileNotFoundException e) {
-			// TODO 
-			// loggba
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO 
-			// loggba			
+			// TODO loggba		
 			e.printStackTrace();
 		}
 		
@@ -529,8 +546,7 @@ public class Labyrinth implements Save, Load {
 			out.close();
 			output.close();
 		} catch (Exception e) {
-			// TODO 
-			// loggba
+			// TODO loggba
 			e.printStackTrace();
 		}	
 		

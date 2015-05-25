@@ -156,8 +156,6 @@ public class AppWindow {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (!labyrinth.SaveToFile()){
-					// TODO 
-					// Felugró ablak az üzenettel: "Mentés sikertelen. A fájlt nem módosítható vagy nem lehet létrehozni."
 					JOptionPane.showMessageDialog(frmMain, "Mentés sikertelen. A fájlt nem módosítható vagy nem lehet létrehozni.");
 				}
 			}
@@ -173,8 +171,6 @@ public class AppWindow {
 					drawLabyrinth(pLabyrinth);
 				}
 				else{
-					// TODO 
-					// Felugró ablak az üzenettel: "Betöltés sikertelen. A fájl nem létezik vagy nem olvasható."
 					JOptionPane.showMessageDialog(frmMain, "Betöltés sikertelen. A fájl nem létezik vagy nem olvasható.");
 				}
 			}
