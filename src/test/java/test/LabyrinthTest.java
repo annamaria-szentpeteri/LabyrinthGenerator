@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import implementation.Labyrinth;
@@ -15,7 +17,6 @@ import implementation.Labyrinth;
  */
 public class LabyrinthTest{
 	static Labyrinth labToTestCtor;
-	static Labyrinth labToTestMethods;
 	static Labyrinth labToTestSaveLoad;
 	static Labyrinth labToTestGetSet;
 	
@@ -27,11 +28,9 @@ public class LabyrinthTest{
 	
 	@BeforeClass
 	public static void beforeTest() throws IOException {
-		labToTestMethods = new Labyrinth(5, 10);
 		labToTestGetSet = new Labyrinth(6, 7);
 		labToTestSaveLoad = new Labyrinth(5, 4);
 
-		labToTestMethods.Generate();
 		labToTestGetSet.Generate();
 		labToTestSaveLoad.Generate();
 		
@@ -48,14 +47,14 @@ public class LabyrinthTest{
 		FullFalse.add(3, false);
 	}
     
-    @org.junit.Test
+    @Test
     public void testConstructors(){
     	assertNotNull("This should make a Labyrinth object", new Labyrinth());
     	assertNotNull("This should make a Labyrinth object", new Labyrinth(1,2));
     	assertNotNull("This should make a Labyrinth object", new Labyrinth(-10, -12));
     }
     
-    @org.junit.Test
+    @Test
     public void testSaveAndLoad() throws IOException{
     	tmp.create();
     	
@@ -66,7 +65,7 @@ public class LabyrinthTest{
     	assertFalse("This load should be unsuccessfull (Random.json).", labToTestSaveLoad.LoadFromFile("Random.json"));
     }
     
-    @org.junit.Test
+    @Test
     public void testGetSet(){
     	assertEquals("Weight should be 6.", 6, labToTestGetSet.getWidth());
     	assertEquals("Height should be 7.", 7, labToTestGetSet.getHeight());
@@ -102,10 +101,5 @@ public class LabyrinthTest{
     	
     	labToTestGetSet.setFieldBorders(3, 3, copyFalse);
     	assertArrayEquals("The two arrays should be equal (FullFalse).", FullFalse.toArray(), labToTestGetSet.getFieldBorders(3, 3).toArray());
-    }
-    
-    @org.junit.Test
-    public void testMethods(){
-    	//TODO
     }
 }
