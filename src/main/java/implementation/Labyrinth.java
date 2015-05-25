@@ -113,21 +113,13 @@ public class Labyrinth implements Save, Load {
 		try {
 			result = new ArrayList<Boolean>();
 			
-			/**
-			 * Add top border.
-			 */
+			/** Add top border. */
 			result.add(horizontalWalls.get(y).get(x));
-			/**
-			 * Add left border.
-			 */
+			/** Add left border. */
 			result.add(verticalWalls.get(x).get(y));
-			/**
-			 * Add bottom border.
-			 */
+			/** Add bottom border. */
 			result.add(horizontalWalls.get(y + 1).get(x));
-			/**
-			 * Add right border.
-			 */
+			/** Add right border. */
 			result.add(verticalWalls.get(x + 1).get(y));
 			
 		} catch (Exception e) {
@@ -182,21 +174,13 @@ public class Labyrinth implements Save, Load {
 	 */
 	public void setFieldBorders(int x, int y, ArrayList<Boolean> borders){
 		try {			
-			/**
-			 * Set top border.
-			 */
+			/** Set top border. */
 			horizontalWalls.get(y).set(x, borders.remove(0));
-			/**
-			 * Set left border.
-			 */
+			/** Set left border. */
 			verticalWalls.get(x).set(y, borders.remove(0));
-			/**
-			 * Set bottom border.
-			 */
+			/** Set bottom border. */
 			horizontalWalls.get(y + 1).set(x, borders.remove(0));
-			/**
-			 * Set right border.
-			 */
+			/** Set right border. */
 			verticalWalls.get(x + 1).set(y, borders.remove(0));
 			
 		} catch (Exception e) {
@@ -230,46 +214,32 @@ public class Labyrinth implements Save, Load {
 	 * clean "room".
 	 */
 	public void Empty(){
-		/**
-		 * Deleting all horizontal walls.
-		 */
+		/** Deleting all horizontal walls. */
 		for(BitSet bs: horizontalWalls){
 			bs.clear();
 		}
 		
-		/**
-		 * Deleting all vertical walls. 
-		 */
+		/** Deleting all vertical walls. */
 		for(BitSet bs: verticalWalls){
 			bs.clear();
 		}
 		
-		/**
-		 * Setting the borders of the labyrinth.
-		 */
+		/** Setting the borders of the labyrinth. */
 		int bsLength = 0;
 		
-		/** 
-		 * Top side of the labyrinth. 
-		 */
+		/** Top side of the labyrinth. */
 		bsLength = horizontalWalls.get(0).size();
 		horizontalWalls.get(0).flip(0, bsLength);
 		
-		/** 
-		 * Bottom side of the labyrinth. 
-		 */
+		/** Bottom side of the labyrinth. */
 		bsLength = horizontalWalls.get(horizontalWalls.size() - 1).size();
 		horizontalWalls.get(horizontalWalls.size() - 1).flip(0, bsLength);
 		
-		/**
-		 *  Left side of the labyrinth. 
-		 */
+		/** Left side of the labyrinth. */
 		bsLength = verticalWalls.get(0).size();
 		verticalWalls.get(0).flip(0, bsLength);
 		
-		/**
-		 * Right side of the labyrinth. 
-		 */
+		/** Right side of the labyrinth. */
 		bsLength = verticalWalls.get(verticalWalls.size() - 1).size();
 		verticalWalls.get(verticalWalls.size() - 1).flip(0, bsLength);
 	}
@@ -281,14 +251,10 @@ public class Labyrinth implements Save, Load {
 	 * makes a new labyrinth randomly.
 	 */
 	public void Generate(){
-		/**
-		 * First needs a clean up to empty the labyrinth. 
-		 */
+		/** First needs a clean up to empty the labyrinth. */
 		Empty();
 		
-		/** 
-		 * Random number generator to randomize the generating method. 
-		 */
+		/** Random number generator to randomize the generating method. */
 		Random rand = new Random();
 		
 		/**
@@ -297,14 +263,10 @@ public class Labyrinth implements Save, Load {
 		 */
 		Integer hORv;
 		
-		/**
-		 * Decides that which line will be filled with walls.
-		 */
+		/** Decides that which line will be filled with walls. */
 		Integer line;
 		
-		/** 
-		 * Arrays to handle which lines were filled and which wasn't.
-		 */
+		/** Arrays to handle which lines were filled and which wasn't. */
 		ArrayList<Integer> hIndexes = new ArrayList<Integer>();
 		ArrayList<Integer> vIndexes = new ArrayList<Integer>();
 		
@@ -351,14 +313,10 @@ public class Labyrinth implements Save, Load {
 			 *       - no: put wall there
 			 */
 			if ((hORv == 0) || (hORv == 1)){
-				/**
-				 * Get line number
-				 */
+				/** Get line number */
 				line = hIndexes.remove( rand.nextInt(hIndexes.size()) );
 				
-				/**
-				 * Generating.
-				 */
+				/** Generating. */
 				for(int i = 0; i < width ; i++){
 					if (verticalWalls.get(i + hORv).get(line - 1) || verticalWalls.get(i + hORv).get(line))
 						horizontalWalls.get(line).set(i, false);
@@ -369,14 +327,10 @@ public class Labyrinth implements Save, Load {
 			else{
 				hORv -= 2;
 				
-				/**
-				 * Get line number
-				 */
+				/** Get line number */
 				line = vIndexes.remove( rand.nextInt(vIndexes.size()) );
 				
-				/**
-				 * Generating.
-				 */
+				/** Generating. */
 				for(int i = 0; i < height ; i++){
 					if (horizontalWalls.get(i + hORv).get(line - 1) || horizontalWalls.get(i + hORv).get(line))
 						verticalWalls.get(line).set(i, false);
