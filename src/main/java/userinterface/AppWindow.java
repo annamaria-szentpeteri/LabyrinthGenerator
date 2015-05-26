@@ -35,7 +35,7 @@ public class AppWindow {
 	/**
 	 * Launch the application.
 	 * 
-	 * @param args sdfsd
+	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {	
 		EventQueue.invokeLater(new Runnable() {
@@ -43,6 +43,7 @@ public class AppWindow {
 				try {
 					AppWindow window = new AppWindow();
 					window.frmMain.setVisible(true);
+					window.frmMain.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
