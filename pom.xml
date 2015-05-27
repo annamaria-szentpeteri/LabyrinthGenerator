@@ -162,6 +162,7 @@
 								<include>**/*.log</include>
 								<include>**/*.json</include>
 								<include>**/logback</include>
+								<include>**/.settings</include>
 							</includes>
 						</fileset>
 					</filesets>

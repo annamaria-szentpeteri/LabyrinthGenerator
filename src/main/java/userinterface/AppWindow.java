@@ -33,8 +33,11 @@ import org.slf4j.LoggerFactory;
  */
 public class AppWindow {
 
+	/** Main window. */
 	private JFrame frmMain;
+	/**	Used labyrinth. */
 	private Labyrinth labyrinth = new Labyrinth();
+	/** For logging purposes. */
 	final static Logger logger = LoggerFactory.getLogger(AppWindow.class);
 	
 	/**
@@ -61,7 +64,7 @@ public class AppWindow {
 	}
 	
 	/**
-	 * @param panel
+	 * @param panel the panel which contains the labyrinth
 	 */
 	private void drawLabyrinth(JPanel panel){
 		logger.info("Drawing labyrinth starts.");
@@ -179,7 +182,7 @@ public class AppWindow {
 			public void mouseReleased(MouseEvent e) {
 				logger.info("Saving labyrinth starts.");
 				
-				if (!labyrinth.SaveToFile()){
+				if (!labyrinth.SaveToJSON()){
 					JOptionPane.showMessageDialog(frmMain, "Mentés sikertelen. A fájlt nem módosítható vagy nem lehet létrehozni.");
 					logger.error("Couldn't save labyrinth.");
 				}
@@ -196,7 +199,7 @@ public class AppWindow {
 			public void mouseReleased(MouseEvent e) {
 				logger.info("Loading labyrinth starts.");
 				
-				if (labyrinth.LoadFromFile()){
+				if (labyrinth.LoadFromJSON()){
 					drawLabyrinth(pLabyrinth);
 				}
 				else{

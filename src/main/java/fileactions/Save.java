@@ -1,4 +1,4 @@
-package interfaces;
+package fileactions;
 
 /**
  * @author Szentpéteri Annamária
@@ -8,7 +8,7 @@ package interfaces;
  */
 public interface Save {
 	/** The default output name. */
-	String FILENAME = "./labyrinth.json";
+	String FILENAME = "./default.json";
 	
 	/**
 	 * Saves information to the default file.
@@ -16,14 +16,15 @@ public interface Save {
 	 * @return return value is true if the saving
 	 *         process was successfull
 	 */
-	Boolean SaveToFile();
+	Boolean SaveToJSON();
 	
 	/**
 	 * Saves information to the given file.
 	 * 
-	 * @param filename
+	 * @param filename name of the file which will be
+	 *                 processed
 	 * @return return value is true if the saving
 	 *         process was successfull
 	 */
-	Boolean SaveToFile(String filename);
+	Boolean SaveToJSON(String filename);
 }

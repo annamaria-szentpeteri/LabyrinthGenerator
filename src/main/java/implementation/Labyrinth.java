@@ -1,13 +1,12 @@
 package implementation;
 
-import interfaces.Load;
-import interfaces.Save;
+import fileactions.Load;
+import fileactions.Save;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -21,8 +20,6 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import userinterface.AppWindow;
-
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonArray;
 
@@ -32,10 +29,13 @@ import com.eclipsesource.json.JsonArray;
  * able to create a random labyrinth with the 
  * sizes given by you.
  * 
- * <p>You are also able to save and load the labyrinth, because of
- * the implementation of <i>Save</i> and <i>Load</i> interfaces.
+ * <p>You are also able to save and load the labyrinth into JSON, 
+ * because of the implementation of <code>Save</code> and 
+ * <code>Load</code> interfaces.
  * 
- * <p>Detailed descreption of functionality and structure comes here.
+ * <p>The used algorithm will generate a labyrinth which every
+ * part can be reached from every field of it. There are no 
+ * separeted parts.
  * 
  * @author Szentpéteri Annamária
  */
@@ -49,7 +49,8 @@ public class Labyrinth implements Save, Load {
 	/** Array which stores the vertical positioned walls. */
 	private ArrayList<BitSet> verticalWalls;
 
-	final static Logger logger = LoggerFactory.getLogger(AppWindow.class);
+	/** For logging purposes. */
+	final static Logger logger = LoggerFactory.getLogger(Labyrinth.class);
 	
 //-------------------------------------------------------------------
 	/** Creates an initial labyrinth with the size 1x1. */
@@ -66,7 +67,7 @@ public class Labyrinth implements Save, Load {
 	 * @param h height of labyrinth
 	 */
 	public Labyrinth(int w, int h){
-		logger.info("Constructor called with value:", w, h);
+		logger.info("Constructor called with " + w + " and " + h + " values.");
 		
 		/** 
 		 * Setting the labyrinth's sizes while checking
@@ -125,7 +126,7 @@ public class Labyrinth implements Save, Load {
 	 */
 	public ArrayList<Boolean> getFieldBorders(int x, int y){
 		logger.info("getFieldBorders: start");
-		logger.info("Field borders asked with the following vales: ", x, y);
+		logger.info("Field borders asked with " + x + " and " + y + " values.");
 		
 		ArrayList<Boolean> result = null; 
 		
@@ -163,7 +164,7 @@ public class Labyrinth implements Save, Load {
 //-------------------------------------------------------------------
 	
 	/**
-	 * Sets the height of the labyrinth
+	 * Sets the height of the labyrinth.
 	 * 
 	 * @param h the given height
 	 */
@@ -181,7 +182,7 @@ public class Labyrinth implements Save, Load {
 	}
 	
 	/**
-	 * Sets the width of the labyrinth
+	 * Sets the width of the labyrinth.
 	 * 
 	 * @param w the given width
 	 */
@@ -199,10 +200,10 @@ public class Labyrinth implements Save, Load {
 	}
 	
 	/**
+	 * Sets the field's borders by the given information.
+	 * 
 	 * Gets coordinates of a field and an array with information
 	 * about the borders in this strict order: top,left,bottom,right
-	 * 
-	 * Sets the field's borders by the given information.
 	 * 
 	 * @param x horizontal coordinate of the field
 	 * @param y vertical coordinate of the field
@@ -212,26 +213,28 @@ public class Labyrinth implements Save, Load {
 	public void setFieldBorders(int x, int y, ArrayList<Boolean> borders){
 		logger.info("setFieldBorders: start");
 		
-		try {			
+		if ((x >= 0) && (y >= 0) && (x < width) && (y < height)){			
 			/**
 			 * Set top border.
 			 */
-			horizontalWalls.get(y).set(x, borders.remove(0));
+			horizontalWalls.get(y).set(x, borders.get(0));
 			/**
 			 * Set left border.
 			 */
-			verticalWalls.get(x).set(y, borders.remove(0));
+			verticalWalls.get(x).set(y, borders.get(1));
 			/**
 			 * Set bottom border.
 			 */
-			horizontalWalls.get(y + 1).set(x, borders.remove(0));
+			horizontalWalls.get(y + 1).set(x, borders.get(2));
 			/**
 			 * Set right border.
 			 */
-			verticalWalls.get(x + 1).set(y, borders.remove(0));
+			verticalWalls.get(x + 1).set(y, borders.get(3));
 			
-		} catch (Exception e) {
-			logger.error(e.getMessage()); 
+			logger.info("Filed borders set.");
+		}
+		else{
+			logger.error("Indexes out of border. Set nothing."); 
 		}
 		
 		logger.info("setFieldBorders: end");
@@ -240,9 +243,12 @@ public class Labyrinth implements Save, Load {
 //-------------------------------------------------------------------
 
 	/**
-	 * Initialize the labyrinth.
-	 * It's a completely raw structure, no wall information
+	 * <p>Initialize the labyrinth.
+	 * 
+	 * <p>It's a completely raw structure, no wall information
 	 * will be set here.
+	 * 
+	 * <p>This method is only suitable to set the correct sizes.
 	 */
 	public void Init(){		
 		logger.info("Init: start");
@@ -261,9 +267,10 @@ public class Labyrinth implements Save, Load {
 	}
 	
 	/**
-	 * Clears the labyrinth. Creates the borders of the
-	 * labyrinth and deletes the inner walls making a
-	 * clean "room".
+	 * <p>Clears the labyrinth.
+	 * 
+	 * <p>Creates the borders of the labyrinth and 
+	 * deletes the inner walls making a clean "room".
 	 */
 	public void Empty(){
 		logger.info("Empty: start");
@@ -316,9 +323,10 @@ public class Labyrinth implements Save, Load {
 	
 	
 	/**
-	 * Generates a random labyrinth.
-	 * First, it's cleans the labyrinth, then
-	 * makes a new labyrinth randomly.
+	 * <p>Generates a random labyrinth.
+	 * 
+	 * <p>First, it empties the labyrinth, then
+	 * makes a new one by random values.
 	 */
 	public void Generate(){
 		logger.info("Generate: start");
@@ -439,29 +447,42 @@ public class Labyrinth implements Save, Load {
 	/* (non-Javadoc)
 	 * @see interfaces.Load#LoadFromFile()
 	 */
-	public Boolean LoadFromFile() {
+	/**
+	 * Implementation of <code>Load</code> interface.
+	 */
+	public Boolean LoadFromJSON() {
 		logger.info("Default loader called.");
 		
-		return LoadFromFile(Load.FILENAME);
+		return LoadFromJSON(Load.FILENAME);
 	}
 
 	/* (non-Javadoc)
 	 * @see interfaces.Save#SaveToFile()
 	 */
-	public Boolean SaveToFile() {
+	/**
+	 * Implementation of <code>Save</code> interface.
+	 */
+	public Boolean SaveToJSON() {
 		logger.info("Default saver called");
 		
-		return SaveToFile(Save.FILENAME);		
+		return SaveToJSON(Save.FILENAME);		
 	}
 	
 	/* (non-Javadoc)
 	 * @see interfaces.Load#LoadFromFile(java.lang.String)
 	 */
-	public Boolean LoadFromFile(String filename) {
+	/**
+	 * Implementation of <code>Load</code> interface.
+	 */
+	public Boolean LoadFromJSON(String filename) {
 		logger.info("LoadFromFile: start");
 		
 		Boolean done = false;
 		
+		/**
+		 * Reading the informations of the labyrinth from the
+		 * given file. It should be a json.
+		 */
 		try (InputStream input = new FileInputStream(filename);){
 			Reader in = new BufferedReader(new InputStreamReader(input));
 			
@@ -470,7 +491,7 @@ public class Labyrinth implements Save, Load {
 			this.setHeight( jo.get("height").asInt() );
 			this.setWidth( jo.get("width").asInt() );
 			
-			Init();
+			this.Init();
 			
 			JsonArray horizontal = jo.get("horizontal").asArray();
 			JsonArray vertical = jo.get("vertical").asArray();
@@ -503,7 +524,7 @@ public class Labyrinth implements Save, Load {
 			input.close();
 			
 			logger.info("Loaded successfully.");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
 		
@@ -515,11 +536,18 @@ public class Labyrinth implements Save, Load {
 	/* (non-Javadoc)
 	 * @see interfaces.Save#SaveToFile(java.lang.String)
 	 */
-	public Boolean SaveToFile(String filename) {
+	/**
+	 * Implementation of <code>Save</code> interface.
+	 */
+	public Boolean SaveToJSON(String filename) {
 		logger.info("SaveToFile: start");
 		
 		Boolean done = false;
 		
+		/**
+		 * Saving the informations of the labyrinth to the
+		 * given file. The output will be in json format.
+		 */
 		try (OutputStream output = new FileOutputStream(filename);){
 			Writer out = new BufferedWriter(new OutputStreamWriter(output));
 			

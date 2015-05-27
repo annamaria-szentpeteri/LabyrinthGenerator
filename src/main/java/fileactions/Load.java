@@ -1,4 +1,4 @@
-package interfaces;
+package fileactions;
 
 /**
  * @author Szentpéteri Annamária
@@ -8,7 +8,7 @@ package interfaces;
  */
 public interface Load {
 	/** The default input name. */
-	String FILENAME = "./labyrinth.json";
+	String FILENAME = "./default.json";
 
 	/**
 	 * Loads information from the default
@@ -17,7 +17,7 @@ public interface Load {
 	 * @return return value is true if the loading
 	 *         process was successfull
 	 */
-	Boolean LoadFromFile();
+	Boolean LoadFromJSON();
 	
 	/**
 	 * Loads information from the given
@@ -28,5 +28,5 @@ public interface Load {
 	 * @return return value is true if the loading
 	 *         process was successfull
 	 */
-	Boolean LoadFromFile(String filename);
+	Boolean LoadFromJSON(String filename);
 }

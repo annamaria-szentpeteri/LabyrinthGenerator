@@ -1,5 +1,6 @@
 package test;
 
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -12,9 +13,7 @@ import org.junit.rules.TemporaryFolder;
 
 import implementation.Labyrinth;
 
-/**
- * Unit test for simple App.
- */
+
 public class LabyrinthTest{
 	static Labyrinth labToTestCtor;
 	static Labyrinth labToTestSaveLoad;
@@ -58,11 +57,11 @@ public class LabyrinthTest{
     public void testSaveAndLoad() throws IOException{
     	tmp.create();
     	
-    	assertTrue("This save should be successfull (Test2.json)", labToTestSaveLoad.SaveToFile(tmp.getRoot().getPath() + "\\" + "Test2.json"));
-    	assertTrue("This save should be successfull (Test2.json)", labToTestSaveLoad.SaveToFile(tmp.getRoot().getPath() + "\\" + "Test1.json"));
+    	assertTrue("This save should be successfull (Test2.json)", labToTestSaveLoad.SaveToJSON(tmp.getRoot().getPath() + "\\" + "Test2.json"));
+    	assertTrue("This save should be successfull (Test2.json)", labToTestSaveLoad.SaveToJSON(tmp.getRoot().getPath() + "\\" + "Test1.json"));
     	
-    	assertTrue("This load should be successfull (Test1.json).", labToTestSaveLoad.LoadFromFile(tmp.getRoot().getPath() + "\\" + "Test1.json"));
-    	assertFalse("This load should be unsuccessfull (Random.json).", labToTestSaveLoad.LoadFromFile("Random.json"));
+    	assertTrue("This load should be successfull (Test1.json).", labToTestSaveLoad.LoadFromJSON(tmp.getRoot().getPath() + "\\" + "Test1.json"));
+    	assertFalse("This load should be unsuccessfull (Random.json).", labToTestSaveLoad.LoadFromJSON("Random.json"));
     	
     	tmp.delete();
     }
