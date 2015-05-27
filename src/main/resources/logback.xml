@@ -1,0 +1,57 @@
+<configuration>
+	<property name="LOG_TO_FILE" value="TRUE" />
+	<property name="LOG_TO_STD" value="FALSE" />
+
+	<!-- You can set the filter level if you want. By default we are logging 
+		everything. -->
+	<if condition='property("LOG_TO_STD").contains("TRUE")'>
+		<then>
+			<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+				<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+					<level>TRACE</level>
+				</filter>
+				<encoder>
+					<pattern>
+						%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+					</pattern>
+				</encoder>
+			</appender>
+		</then>
+	</if>
+
+	<if condition='property("LOG_TO_FILE").contains("TRUE")'>
+		<then>
+			<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+				<file>logback/messages.log</file>
+				<append>false</append>
+				<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+					<level>TRACE</level>
+				</filter>
+				<encoder>
+					<pattern>
+						%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+					</pattern>
+				</encoder>
+			</appender>
+		</then>
+	</if>
+
+
+
+
+	<logger name="main.all" level="ALL" additivity="false" />
+
+	<root level="ALL">
+		<if condition='property("LOG_TO_STD").contains("TRUE")'>
+			<then>
+				<appender-ref ref="STDOUT" />
+			</then>
+		</if>
+
+		<if condition='property("LOG_TO_FILE").contains("TRUE")'>
+			<then>
+				<appender-ref ref="FILE" />
+			</then>
+		</if>
+	</root>
+</configuration>

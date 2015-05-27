@@ -7,7 +7,6 @@
 	<version>1.0</version>
 	<packaging>jar</packaging>
 	<description>University project, which generates a labyrinth in the given size.</description>
-
 	<name>Labyrinth Generator</name>
 	<url>https://github.com/annamaria-szentpeteri/LabyrinthGenerator</url>
 
@@ -74,7 +73,7 @@
 				<version>2.5.1</version>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
+						<id>copy-dependencies-site</id>
 						<phase>package</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
@@ -151,6 +150,23 @@
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.4</version>
 			</plugin>
+
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.6.1</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}</directory>
+							<includes>
+								<include>**/*.log</include>
+								<include>**/*.json</include>
+								<include>**/logback</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -207,6 +223,33 @@
 			<groupId>com.eclipsesource.minimal-json</groupId>
 			<artifactId>minimal-json</artifactId>
 			<version>0.9.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.2</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.2</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.7.8</version>
 		</dependency>
 	</dependencies>
 </project>

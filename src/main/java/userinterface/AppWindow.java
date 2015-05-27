@@ -23,6 +23,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.SpinnerNumberModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * @author Szentpéteri Annamária
  *
@@ -31,21 +35,26 @@ public class AppWindow {
 
 	private JFrame frmMain;
 	private Labyrinth labyrinth = new Labyrinth();
-
+	final static Logger logger = LoggerFactory.getLogger(AppWindow.class);
+	
 	/**
 	 * Launch the application.
 	 * 
 	 * @param args command line arguments
 	 */
-	public static void main(String[] args) {	
+	public static void main(String[] args) {		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					logger.info("Creating the application window.");
+					
 					AppWindow window = new AppWindow();
 					window.frmMain.setVisible(true);
 					window.frmMain.setResizable(false);
+					
+					logger.info("Application window created.");
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(e.getMessage());
 				}
 			}
 		});
@@ -55,6 +64,8 @@ public class AppWindow {
 	 * @param panel
 	 */
 	private void drawLabyrinth(JPanel panel){
+		logger.info("Drawing labyrinth starts.");
+		
 		panel.removeAll();
 		
 		/**
@@ -92,6 +103,8 @@ public class AppWindow {
 		}
 		
 		panel.repaint();
+		
+		logger.info("Drawing labyrinth done.");
 	}
 	
 	/**
@@ -140,6 +153,8 @@ public class AppWindow {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				try {
+					logger.info("Generating new labyrinth starts.");
+					
 					Integer height = (Integer)(spHeight.getValue());
 					Integer width = (Integer)(spWidth.getValue());
 					
@@ -147,8 +162,10 @@ public class AppWindow {
 					labyrinth.Generate();
 					
 					drawLabyrinth(pLabyrinth);
+					
+					logger.info("New labyrinth generated.");
 				} catch (Exception exept) {
-					exept.printStackTrace();
+					logger.error(exept.getMessage());
 				}
 			}
 		});
@@ -160,9 +177,14 @@ public class AppWindow {
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				logger.info("Saving labyrinth starts.");
+				
 				if (!labyrinth.SaveToFile()){
 					JOptionPane.showMessageDialog(frmMain, "Mentés sikertelen. A fájlt nem módosítható vagy nem lehet létrehozni.");
+					logger.error("Couldn't save labyrinth.");
 				}
+				
+				logger.info("Saving labyrinth ends.");
 			}
 		});		
 		frmMain.getContentPane().add(btnSave);
@@ -172,12 +194,17 @@ public class AppWindow {
 		btnLoad.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				logger.info("Loading labyrinth starts.");
+				
 				if (labyrinth.LoadFromFile()){
 					drawLabyrinth(pLabyrinth);
 				}
 				else{
 					JOptionPane.showMessageDialog(frmMain, "Betöltés sikertelen. A fájl nem létezik vagy nem olvasható.");
+					logger.error("Couldn't load labyrinth.");
 				}
+				
+				logger.info("Loading labyrinth ends.");
 			}
 		});
 		frmMain.getContentPane().add(btnLoad);
@@ -186,6 +213,8 @@ public class AppWindow {
 		btnExit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				logger.info("Exiting.");
+				
 				System.exit(0);
 			}
 		});

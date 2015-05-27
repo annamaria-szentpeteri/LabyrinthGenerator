@@ -63,6 +63,8 @@ public class LabyrinthTest{
     	
     	assertTrue("This load should be successfull (Test1.json).", labToTestSaveLoad.LoadFromFile(tmp.getRoot().getPath() + "\\" + "Test1.json"));
     	assertFalse("This load should be unsuccessfull (Random.json).", labToTestSaveLoad.LoadFromFile("Random.json"));
+    	
+    	tmp.delete();
     }
     
     @Test

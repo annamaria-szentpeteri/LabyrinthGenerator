@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import userinterface.AppWindow;
+
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonArray;
 
@@ -44,10 +49,14 @@ public class Labyrinth implements Save, Load {
 	/** Array which stores the vertical positioned walls. */
 	private ArrayList<BitSet> verticalWalls;
 
+	final static Logger logger = LoggerFactory.getLogger(AppWindow.class);
+	
 //-------------------------------------------------------------------
 	/** Creates an initial labyrinth with the size 1x1. */
 	public Labyrinth(){
 		this(1, 1);
+		
+		logger.info("Default constructor has been called.");
 	}
 	
 	/**
@@ -57,6 +66,8 @@ public class Labyrinth implements Save, Load {
 	 * @param h height of labyrinth
 	 */
 	public Labyrinth(int w, int h){
+		logger.info("Constructor called with value:", w, h);
+		
 		/** 
 		 * Setting the labyrinth's sizes while checking
 		 * if they are correct.
@@ -76,6 +87,8 @@ public class Labyrinth implements Save, Load {
 		
 		/** Creating an empty labyrinth. */
 		Empty();
+		
+		logger.info("Constructor done.");
 	}
 
 //-------------------------------------------------------------------
@@ -86,6 +99,8 @@ public class Labyrinth implements Save, Load {
 	 * @return height of the labyrinth
 	 */
 	public int getHeight(){
+		logger.info("Height asked.");
+		
 		return height;
 	}
 	
@@ -95,6 +110,8 @@ public class Labyrinth implements Save, Load {
 	 * @return width of the labyrinth
 	 */
 	public int getWidth(){
+		logger.info("Width asked.");
+		
 		return width;
 	}
 	
@@ -107,6 +124,9 @@ public class Labyrinth implements Save, Load {
 	 * @return a [top, left, bottom, right] array which members are either true or false
 	 */
 	public ArrayList<Boolean> getFieldBorders(int x, int y){
+		logger.info("getFieldBorders: start");
+		logger.info("Field borders asked with the following vales: ", x, y);
+		
 		ArrayList<Boolean> result = null; 
 		
 		try {
@@ -130,10 +150,12 @@ public class Labyrinth implements Save, Load {
 			result.add(verticalWalls.get(x + 1).get(y));
 			
 		} catch (Exception e) {
-			// TODO loggba
-			e.printStackTrace(); 
+			logger.error(e.getMessage());
+			
 			result = null;
 		}
+		
+		logger.info("getFieldBorders: end");
 		
  		return result;
 	}
@@ -146,11 +168,15 @@ public class Labyrinth implements Save, Load {
 	 * @param h the given height
 	 */
 	public void setHeight(int h){
+		logger.info("Setting height.");
+		
 		if (h > 0){
 			height = h;
-			
+		
 			Init();
 			Empty();
+			
+			logger.info("Height setted.");
 		}
 	}
 	
@@ -160,11 +186,15 @@ public class Labyrinth implements Save, Load {
 	 * @param w the given width
 	 */
 	public void setWidth(int w){
+		logger.info("Setting width.");
+		
 		if (w > 0){
 			width = w;
 			
 			Init();
 			Empty();
+			
+			logger.info("Width setted.");
 		}
 	}
 	
@@ -180,6 +210,8 @@ public class Labyrinth implements Save, Load {
 	 *                information about the field's borders
 	 */
 	public void setFieldBorders(int x, int y, ArrayList<Boolean> borders){
+		logger.info("setFieldBorders: start");
+		
 		try {			
 			/**
 			 * Set top border.
@@ -199,9 +231,10 @@ public class Labyrinth implements Save, Load {
 			verticalWalls.get(x + 1).set(y, borders.remove(0));
 			
 		} catch (Exception e) {
-			//TODO loggba
-			e.printStackTrace(); 
+			logger.error(e.getMessage()); 
 		}
+		
+		logger.info("setFieldBorders: end");
 	}
 
 //-------------------------------------------------------------------
@@ -212,6 +245,8 @@ public class Labyrinth implements Save, Load {
 	 * will be set here.
 	 */
 	public void Init(){		
+		logger.info("Init: start");
+		
 		horizontalWalls = new ArrayList<BitSet>();
 		verticalWalls = new ArrayList<BitSet>();
 		
@@ -221,6 +256,8 @@ public class Labyrinth implements Save, Load {
 		for(int i = 0; i < width + 1; i++){
 			verticalWalls.add(new BitSet(height));
 		}
+		
+		logger.info("Init: end");
 	}
 	
 	/**
@@ -229,6 +266,8 @@ public class Labyrinth implements Save, Load {
 	 * clean "room".
 	 */
 	public void Empty(){
+		logger.info("Empty: start");
+		
 		/**
 		 * Deleting all horizontal walls.
 		 */
@@ -271,6 +310,8 @@ public class Labyrinth implements Save, Load {
 		 */
 		bsLength = verticalWalls.get(verticalWalls.size() - 1).size();
 		verticalWalls.get(verticalWalls.size() - 1).flip(0, bsLength);
+		
+		logger.info("Empty: end");
 	}
 	
 	
@@ -280,6 +321,8 @@ public class Labyrinth implements Save, Load {
 	 * makes a new labyrinth randomly.
 	 */
 	public void Generate(){
+		logger.info("Generate: start");
+		
 		/**
 		 * First needs a clean up to empty the labyrinth. 
 		 */
@@ -350,6 +393,8 @@ public class Labyrinth implements Save, Load {
 			 *       - no: put wall there
 			 */
 			if ((hORv == 0) || (hORv == 1)){
+				logger.info("Generating horizontal line.");
+				
 				/**
 				 * Get line number
 				 */
@@ -366,6 +411,8 @@ public class Labyrinth implements Save, Load {
 				}	
 			}
 			else{
+				logger.info("Generating vertical line.");
+				
 				hORv -= 2;
 				
 				/**
@@ -384,6 +431,8 @@ public class Labyrinth implements Save, Load {
 				}
 			}
 		}
+		
+		logger.info("Generate: end");
 	}
 
 //-------------------------------------------------------------------
@@ -391,6 +440,8 @@ public class Labyrinth implements Save, Load {
 	 * @see interfaces.Load#LoadFromFile()
 	 */
 	public Boolean LoadFromFile() {
+		logger.info("Default loader called.");
+		
 		return LoadFromFile(Load.FILENAME);
 	}
 
@@ -398,6 +449,8 @@ public class Labyrinth implements Save, Load {
 	 * @see interfaces.Save#SaveToFile()
 	 */
 	public Boolean SaveToFile() {
+		logger.info("Default saver called");
+		
 		return SaveToFile(Save.FILENAME);		
 	}
 	
@@ -405,6 +458,8 @@ public class Labyrinth implements Save, Load {
 	 * @see interfaces.Load#LoadFromFile(java.lang.String)
 	 */
 	public Boolean LoadFromFile(String filename) {
+		logger.info("LoadFromFile: start");
+		
 		Boolean done = false;
 		
 		try (InputStream input = new FileInputStream(filename);){
@@ -446,10 +501,13 @@ public class Labyrinth implements Save, Load {
 			
 			in.close();
 			input.close();
+			
+			logger.info("Loaded successfully.");
 		} catch (IOException e) {
-			// TODO loggba		
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
+		
+		logger.info("LoadFromFile: end");
 		
 		return done;
 	}
@@ -458,6 +516,8 @@ public class Labyrinth implements Save, Load {
 	 * @see interfaces.Save#SaveToFile(java.lang.String)
 	 */
 	public Boolean SaveToFile(String filename) {
+		logger.info("SaveToFile: start");
+		
 		Boolean done = false;
 		
 		try (OutputStream output = new FileOutputStream(filename);){
@@ -508,10 +568,13 @@ public class Labyrinth implements Save, Load {
 			
 			out.close();
 			output.close();
+			
+			logger.info("Saved successfully.");
 		} catch (Exception e) {
-			// TODO loggba
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}	
+		
+		logger.info("SaveToFile: end");
 		
 		return done;
 	}
