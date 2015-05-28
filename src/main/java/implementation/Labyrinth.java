@@ -50,7 +50,7 @@ public class Labyrinth implements Save, Load {
 	private ArrayList<BitSet> verticalWalls;
 
 	/** For logging purposes. */
-	final static Logger logger = LoggerFactory.getLogger(Labyrinth.class);
+	private final static Logger logger = LoggerFactory.getLogger(Labyrinth.class);
 	
 //-------------------------------------------------------------------
 	/** Creates an initial labyrinth with the size 1x1. */
@@ -234,7 +234,7 @@ public class Labyrinth implements Save, Load {
 			logger.info("Filed borders set.");
 		}
 		else{
-			logger.error("Indexes out of border. Set nothing."); 
+			logger.error("Indexes out of border. Set nothing.");
 		}
 		
 		logger.info("setFieldBorders: end");
@@ -444,11 +444,12 @@ public class Labyrinth implements Save, Load {
 	}
 
 //-------------------------------------------------------------------
-	/* (non-Javadoc)
-	 * @see interfaces.Load#LoadFromFile()
-	 */
 	/**
 	 * Implementation of <code>Load</code> interface.
+	 * 
+	 * @return return value is true if the loading
+	 *         process was successfull
+	 * @see fileactions.Load#LoadFromJSON()
 	 */
 	public Boolean LoadFromJSON() {
 		logger.info("Default loader called.");
@@ -456,11 +457,12 @@ public class Labyrinth implements Save, Load {
 		return LoadFromJSON(Load.FILENAME);
 	}
 
-	/* (non-Javadoc)
-	 * @see interfaces.Save#SaveToFile()
-	 */
 	/**
 	 * Implementation of <code>Save</code> interface.
+	 * 
+	 * @return return value is true if the saving
+	 *         process was successfull      
+	 * @see fileactions.Save#SaveToJSON()
 	 */
 	public Boolean SaveToJSON() {
 		logger.info("Default saver called");
@@ -468,11 +470,14 @@ public class Labyrinth implements Save, Load {
 		return SaveToJSON(Save.FILENAME);		
 	}
 	
-	/* (non-Javadoc)
-	 * @see interfaces.Load#LoadFromFile(java.lang.String)
-	 */
 	/**
 	 * Implementation of <code>Load</code> interface.
+	 * 
+	 * @param filename name of the file which will be
+	 *                 processed
+	 * @return return value is true if the loading
+	 *         process was successfull
+	 * @see fileactions.Load#LoadFromJSON(java.lang.String)
 	 */
 	public Boolean LoadFromJSON(String filename) {
 		logger.info("LoadFromFile: start");
@@ -533,11 +538,13 @@ public class Labyrinth implements Save, Load {
 		return done;
 	}
 
-	/* (non-Javadoc)
-	 * @see interfaces.Save#SaveToFile(java.lang.String)
-	 */
 	/**
 	 * Implementation of <code>Save</code> interface.
+	 * @param filename name of the file which will be
+	 *                 processed
+	 * @return return value is true if the saving
+	 *         process was successfull    
+	 * @see fileactions.Save#SaveToJSON(java.lang.String)
 	 */
 	public Boolean SaveToJSON(String filename) {
 		logger.info("SaveToFile: start");

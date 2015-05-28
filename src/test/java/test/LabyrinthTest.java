@@ -27,8 +27,8 @@ public class LabyrinthTest{
 	
 	@BeforeClass
 	public static void beforeTest() throws IOException {
-		labToTestGetSet = new Labyrinth(6, 7);
-		labToTestSaveLoad = new Labyrinth(5, 4);
+		labToTestGetSet = new Labyrinth(20, 15);
+		labToTestSaveLoad = new Labyrinth(17, 23);
 
 		labToTestGetSet.Generate();
 		labToTestSaveLoad.Generate();
@@ -48,9 +48,9 @@ public class LabyrinthTest{
     
     @Test
     public void testConstructors(){
-    	assertNotNull("This should make a Labyrinth object", new Labyrinth());
-    	assertNotNull("This should make a Labyrinth object", new Labyrinth(1,2));
-    	assertNotNull("This should make a Labyrinth object", new Labyrinth(-10, -12));
+    	assertNotNull("This should make a Labyrinth object with size 1x1", new Labyrinth());
+    	assertNotNull("This should make a Labyrinth object with size 3x3", new Labyrinth(3,4));
+    	assertNotNull("This should make a Labyrinth object with size 1x1", new Labyrinth(-10, -12));
     }
     
     @Test
@@ -68,22 +68,22 @@ public class LabyrinthTest{
     
     @Test
     public void testGetSet(){
-    	assertEquals("Weight should be 6.", 6, labToTestGetSet.getWidth());
-    	assertEquals("Height should be 7.", 7, labToTestGetSet.getHeight());
+    	assertEquals("Weight should be 20.", 20, labToTestGetSet.getWidth());
+    	assertEquals("Height should be 15.", 15, labToTestGetSet.getHeight());
     	
     	labToTestGetSet.setHeight(-10);
     	
-    	assertEquals("Weight should be 6.", 6, labToTestGetSet.getWidth());
-    	assertEquals("Height should be 7.", 7, labToTestGetSet.getHeight());
+    	assertEquals("Weight should be 20.", 20, labToTestGetSet.getWidth());
+    	assertEquals("Height should be 15.", 15, labToTestGetSet.getHeight());
     	
     	labToTestGetSet.setWidth(0);
     	
-    	assertEquals("Weight should be 6.", 6, labToTestGetSet.getWidth());
-    	assertEquals("Height should be 7.", 7, labToTestGetSet.getHeight());
+    	assertEquals("Weight should be 20.", 20, labToTestGetSet.getWidth());
+    	assertEquals("Height should be 15.", 15, labToTestGetSet.getHeight());
     	
     	labToTestGetSet.setHeight(10);
     	
-    	assertEquals("Weight should be 6.", 6, labToTestGetSet.getWidth());
+    	assertEquals("Weight should be 20.", 20, labToTestGetSet.getWidth());
     	assertEquals("Height should be 10.", 10, labToTestGetSet.getHeight());
     	
     	labToTestGetSet.setWidth(12);
@@ -96,6 +96,9 @@ public class LabyrinthTest{
     	
     	ArrayList<Boolean> copyTrue = new ArrayList<Boolean>(FullTrue.subList(0, 4));
     	ArrayList<Boolean> copyFalse = new ArrayList<Boolean>(FullFalse.subList(0, 4));
+    	
+    	labToTestGetSet.setFieldBorders(-2, 3, copyTrue);
+    	labToTestGetSet.setFieldBorders(2, 120, copyTrue);
     	
     	labToTestGetSet.setFieldBorders(3, 3, copyTrue);
     	assertArrayEquals("The two arrays should be equal (FullTrue).", FullTrue.toArray(), labToTestGetSet.getFieldBorders(3, 3).toArray());
