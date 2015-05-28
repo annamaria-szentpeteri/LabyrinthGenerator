@@ -67,7 +67,7 @@ public class Labyrinth implements Save, Load {
 	 * @param h height of labyrinth
 	 */
 	public Labyrinth(int w, int h){
-		logger.info("Constructor called with " + w + " and " + h + " values.");
+		logger.info("Constructor called with {} and {} values.", w, h);
 		
 		/** 
 		 * Setting the labyrinth's sizes while checking
@@ -126,7 +126,7 @@ public class Labyrinth implements Save, Load {
 	 */
 	public ArrayList<Boolean> getFieldBorders(int x, int y){
 		logger.info("getFieldBorders: start");
-		logger.info("Field borders asked with " + x + " and " + y + " values.");
+		logger.info("Field borders asked with {} and {} values.", x, y);
 		
 		ArrayList<Boolean> result = null; 
 		
@@ -169,7 +169,7 @@ public class Labyrinth implements Save, Load {
 	 * @param h the given height
 	 */
 	public void setHeight(int h){
-		logger.info("Setting height.");
+		logger.info("Setting height to {}.", h);
 		
 		if (h > 0){
 			height = h;
@@ -177,7 +177,7 @@ public class Labyrinth implements Save, Load {
 			Init();
 			Empty();
 			
-			logger.info("Height setted.");
+			logger.info("Height set to {}.", h);
 		}
 	}
 	
@@ -187,7 +187,7 @@ public class Labyrinth implements Save, Load {
 	 * @param w the given width
 	 */
 	public void setWidth(int w){
-		logger.info("Setting width.");
+		logger.info("Setting width to {}.", w);
 		
 		if (w > 0){
 			width = w;
@@ -195,7 +195,7 @@ public class Labyrinth implements Save, Load {
 			Init();
 			Empty();
 			
-			logger.info("Width setted.");
+			logger.info("Width set to {}.", w);
 		}
 	}
 	
