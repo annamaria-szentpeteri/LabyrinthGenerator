@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -25,8 +26,10 @@ import javax.swing.SpinnerNumberModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.swing.UIManager;
 import javax.swing.JTextField;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -132,20 +135,20 @@ public class AppWindow {
 		frmMain.setForeground(Color.GRAY);
 		frmMain.setTitle("Labirintus generátor");
 		frmMain.getContentPane().setBackground(UIManager.getColor("CheckBox.background"));
-		frmMain.setBounds(100, 100, 724, 400);
+		frmMain.setBounds(100, 100, 740, 560);
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMain.getContentPane().setLayout(null);
 		
 		final JPanel pLabyrinth = new JPanel();
 		pLabyrinth.setBackground(UIManager.getColor("CheckBox.background"));
-		pLabyrinth.setBounds(303, 11, 395, 340);
+		pLabyrinth.setBounds(210, 11, 500, 500);
 		frmMain.getContentPane().add(pLabyrinth);
 		pLabyrinth.setLayout(null);
 		
 		JPanel pSettings = new JPanel();
 		pSettings.setBorder(new EmptyBorder(0, 0, 0, 0));
 		pSettings.setBackground(SystemColor.scrollbar);
-		pSettings.setBounds(15, 20, 148, 75);
+		pSettings.setBounds(25, 25, 148, 75);
 		frmMain.getContentPane().add(pSettings);
 		
 		JLabel lblHeight = new JLabel("Magasság:");
@@ -153,10 +156,10 @@ public class AppWindow {
 		JLabel lblWidth = new JLabel("Szélesség:");
 		
 		final JSpinner spHeight = new JSpinner();
-		spHeight.setModel(new SpinnerNumberModel(1, 1, 50, 1));
+		spHeight.setModel(new SpinnerNumberModel(1, 1, 100, 1));
 		
 		final JSpinner spWidth = new JSpinner();
-		spWidth.setModel(new SpinnerNumberModel(1, 1, 50, 1));
+		spWidth.setModel(new SpinnerNumberModel(1, 1, 100, 1));
 		
 		JButton btnGenerate = new JButton("Generálás");
 		btnGenerate.addMouseListener(new MouseAdapter() {
@@ -179,27 +182,25 @@ public class AppWindow {
 				}
 			}
 		});
-		btnGenerate.setBounds(173, 40, 101, 40);
+		btnGenerate.setBounds(50, 150, 100, 40);
 		frmMain.getContentPane().add(btnGenerate);
 		
 		JButton btnSave = new JButton("Mentés");
-		btnSave.setBounds(15, 160, 90, 23);
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSave.setBounds(50, 223, 100, 35);
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				logger.info("Saving labyrinth starts.");
 				
-				if (tfSave.getText().isEmpty()){
-					if (!labyrinth.SaveToJSON()){
-						JOptionPane.showMessageDialog(frmMain, "Mentés sikertelen. A fájl nem módosítható vagy nem lehet létrehozni.");
-						logger.error("Couldn't save labyrinth.");
-					}
-					else{
-						logger.info("Saved with default.");
-					}
-				}
-				else{
-					if (!labyrinth.SaveToJSON(tfSave.getText())){
+				JFileChooser chooser = new JFileChooser();
+			    int returnVal = chooser.showOpenDialog(frmMain);
+			    
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+					if (!labyrinth.SaveToJSON(chooser.getSelectedFile().getPath())){
 						JOptionPane.showMessageDialog(frmMain, "Mentés sikertelen. A fájl nem módosítható vagy nem lehet létrehozni.");
 						logger.error("Couldn't save labyrinth.");
 					}
@@ -214,25 +215,17 @@ public class AppWindow {
 		frmMain.getContentPane().add(btnSave);
 		
 		JButton btnLoad = new JButton("Betöltés");
-		btnLoad.setBounds(15, 242, 90, 23);
+		btnLoad.setBounds(50, 279, 100, 35);
 		btnLoad.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				logger.info("Loading labyrinth starts.");
 				
-				if (tfLoad.getText().isEmpty()){
-					if (labyrinth.LoadFromJSON()){
-						drawLabyrinth(pLabyrinth);
-						
-						logger.info("Load with default.");
-					}
-					else{
-						JOptionPane.showMessageDialog(frmMain, "Betöltés sikertelen. A fájl nem létezik vagy nem olvasható.");
-						logger.error("Couldn't load labyrinth.");
-					}
-				}
-				else{
-					if (labyrinth.LoadFromJSON(tfLoad.getText())){
+				JFileChooser chooser = new JFileChooser();
+			    int returnVal = chooser.showOpenDialog(frmMain);
+			    
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+					if (labyrinth.LoadFromJSON(chooser.getSelectedFile().getPath())){
 						drawLabyrinth(pLabyrinth);
 						
 						logger.info("Load with {}.", tfLoad.getText());
@@ -262,7 +255,7 @@ public class AppWindow {
 			}
 		});
 		btnExit.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnExit.setBounds(90, 290, 100, 40);
+		btnExit.setBounds(50, 349, 100, 40);
 		frmMain.getContentPane().add(btnExit);
 	
 		GroupLayout gl_pSettings = new GroupLayout(pSettings);
@@ -298,15 +291,5 @@ public class AppWindow {
 		);
 		
 		pSettings.setLayout(gl_pSettings);
-		
-		tfSave = new JTextField();
-		tfSave.setBounds(15, 129, 200, 20);
-		frmMain.getContentPane().add(tfSave);
-		tfSave.setColumns(10);
-		
-		tfLoad = new JTextField();
-		tfLoad.setBounds(15, 211, 200, 20);
-		frmMain.getContentPane().add(tfLoad);
-		tfLoad.setColumns(10);
 	}
 }
