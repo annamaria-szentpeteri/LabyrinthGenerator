@@ -30,8 +30,8 @@ import com.eclipsesource.json.JsonArray;
  * sizes given by you.
  * 
  * <p>You are also able to save and load the labyrinth into JSON, 
- * because of the implementation of <code>Save</code> and 
- * <code>Load</code> interfaces.
+ * because of the implementation of {@link fileactions.Save} and 
+ * {@link fileactions.Load} interfaces.
  * 
  * <p>The used algorithm will generate a labyrinth which every
  * part can be reached from every field of it. There are no 
@@ -445,7 +445,7 @@ public class Labyrinth implements Save, Load {
 
 //-------------------------------------------------------------------
 	/**
-	 * Implementation of <code>Load</code> interface.
+	 * Implementation of {@link fileactions.Load} interface.
 	 * 
 	 * @return return value is true if the loading
 	 *         process was successfull
@@ -458,7 +458,7 @@ public class Labyrinth implements Save, Load {
 	}
 
 	/**
-	 * Implementation of <code>Save</code> interface.
+	 * Implementation of {@link fileactions.Save} interface.
 	 * 
 	 * @return return value is true if the saving
 	 *         process was successfull      
@@ -471,7 +471,7 @@ public class Labyrinth implements Save, Load {
 	}
 	
 	/**
-	 * Implementation of <code>Load</code> interface.
+	 * Implementation of {@link fileactions.Load} interface.
 	 * 
 	 * @param filename name of the file which will be
 	 *                 processed
@@ -539,7 +539,8 @@ public class Labyrinth implements Save, Load {
 	}
 
 	/**
-	 * Implementation of <code>Save</code> interface.
+	 * Implementation of {@link fileactions.Save} interface.
+	 * 
 	 * @param filename name of the file which will be
 	 *                 processed
 	 * @return return value is true if the saving
