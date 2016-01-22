@@ -231,7 +231,7 @@ public class AppWindow {
 						logger.info("Load with {}.", tfLoad.getText());
 					}
 					else{
-						JOptionPane.showMessageDialog(frmMain, "Betöltés sikertelen. A fájl nem létezik vagy nem olvasható.");
+						JOptionPane.showMessageDialog(frmMain, "Betöltés sikertelen. A fájl nem létezik, nem olvasható vagy nem megfelelő formátumú.");
 						logger.error("Couldn't load labyrinth.");
 					}
 				}
